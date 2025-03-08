@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false, //bu hussein 4
+      debugShowCheckedModeBanner: false, //bu hussein 5
       title: 'My Project fgdfg',
       theme: ThemeData(
         primarySwatch: Colors.blue,
