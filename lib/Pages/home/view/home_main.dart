@@ -3,6 +3,7 @@ import 'package:my_project/Pages/home/function/getCategorys.dart';
 import 'package:my_project/Pages/home/function/getFood.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/selectedCategory.dart';
+import 'package:my_project/Pages/shopping_cart/view/shopping_cart_view.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../../color.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,9 @@ class HomeMain extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.deepOrange),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(()=>ShoppingCartView());
+            },
           ),
         ],
       ),
