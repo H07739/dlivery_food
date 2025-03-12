@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/Pages/home/model/category_model.dart';
 import 'package:my_project/color.dart';
+import 'package:my_project/widgets/image_view.dart';
 
 class Selectedcategory extends StatefulWidget {
   Selectedcategory(
@@ -17,25 +18,25 @@ class _SelectedcategoryState extends State<Selectedcategory> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180, // الارتفاع الكلي للعناصر
+      height: 180,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal, // ✅ جعل القائمة أفقية
+        scrollDirection: Axis.horizontal,
         itemCount: widget.categorys.length,
         itemBuilder: (context, index) {
           bool isSelected = widget._selected == index;
 
-          // قياس عرض النص
+
           TextPainter textPainter = TextPainter(
             text: TextSpan(
               text: widget.categorys[index].name,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-            maxLines: 2, // ✅ جعل النص ينزل لسطر جديد عند الحاجة
+            maxLines: 2,
             textDirection: TextDirection.ltr,
           )..layout();
 
           double textWidth = textPainter.width;
-          double containerWidth = textWidth.clamp(100, 200); // ✅ تحديد عرض الصورة والنص بين 100 و 200
+          double containerWidth = textWidth.clamp(100, 200);
 
           return Container(
             margin: const EdgeInsets.only(right: 20),
@@ -51,18 +52,12 @@ class _SelectedcategoryState extends State<Selectedcategory> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                    child: Image.network(
-                      widget.categorys[index].image,
-                      fit: BoxFit.cover,
-                      height: 120, // ✅ ارتفاع الصورة ثابت
-                      width: containerWidth, // ✅ عرض الصورة يعتمد على عرض النص
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.broken_image, size: 50);
-                      },
-                    ),
+                    child:ImageView(url: widget.categorys[index].image,height: 120,
+                      width: containerWidth),
+
                   ),
                   Container(
-                    width: containerWidth, // ✅ جعل عرض النص مطابقًا للصورة
+                    width: containerWidth,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -80,9 +75,9 @@ class _SelectedcategoryState extends State<Selectedcategory> {
                         color: isSelected ? Colors.white : Colors.grey.shade600,
                         fontWeight: FontWeight.w600,
                       ),
-                      maxLines: 2, // ✅ السماح بالنزول لسطر جديد
-                      overflow: TextOverflow.visible, // ✅ إظهار النص بالكامل
-                      softWrap: true, // ✅ تمكين الالتفاف التلقائي
+                      maxLines: 2,
+                      overflow: TextOverflow.visible,
+                      softWrap: true,
                     ),
                   ),
                 ],

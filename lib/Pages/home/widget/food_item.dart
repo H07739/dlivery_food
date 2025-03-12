@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
+import 'package:my_project/widgets/image_view.dart';
 
 import '../../../widgets/favorite_item.dart';
 import '../function/add_favorite.dart';
@@ -32,15 +33,9 @@ class FoodItem extends StatelessWidget {
             child: ClipRRect(
               
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                model.image,
-                width: double.infinity,
-                height: 150,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) =>
-                    Icon(Icons.broken_image, size: 50),
-            
-              ),
+              child: ImageView(url: model.image,width: double.infinity,
+                height: 150,),
+
             
             ),
           ),
