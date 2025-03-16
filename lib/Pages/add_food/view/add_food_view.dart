@@ -45,7 +45,7 @@ class AddFoodView extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'يرجى اختيار تصنيف الاكل',
+              'select food',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(
@@ -75,13 +75,14 @@ class AddFoodView extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 child: TextField(
                   controller: nameFoodController,
-                  decoration: InputDecoration(hintText: 'ادخل اسم الاكل'),
+                  decoration: InputDecoration(hintText: 'choose name food'),
                 )),
             Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
                   controller: descriptionFoodController,
-                  decoration: InputDecoration(hintText: 'ادخل وصف الاكل'),
+                  decoration:
+                      InputDecoration(hintText: 'choose description food'),
                 )),
             Container(
                 padding: EdgeInsets.all(10),
@@ -90,7 +91,7 @@ class AddFoodView extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
-                    hintText: 'ادخل سعر الاكل',
+                    hintText: ' choose price food   ',
                   ),
                 )),
             SizedBox(
@@ -103,7 +104,7 @@ class AddFoodView extends StatelessWidget {
                   return Column(
                     children: [
                       Image.file(
-                        height:200,
+                        height: 200,
                         width: MediaQuery.of(context).size.width / 2,
                         _image!,
                         fit: BoxFit.cover,
@@ -111,11 +112,12 @@ class AddFoodView extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      ElevatedButton(onPressed: (){
-                        _image = null;
-                        imageSelect.value=false;
-                      }, child: Text('change image'))
-
+                      ElevatedButton(
+                          onPressed: () {
+                            _image = null;
+                            imageSelect.value = false;
+                          },
+                          child: Text('change image'))
                     ],
                   );
                 } else {
@@ -150,7 +152,7 @@ class AddFoodView extends StatelessWidget {
               children: [
                 Expanded(
                     child: MaterialButtonX(
-                  text: Text('رفع البيانات'),
+                  text: Text('post data'),
                   onPressed: (ValueNotifier<bool> keyNotifier) async {
                     keyNotifier.value = true;
                     try {
@@ -179,13 +181,12 @@ class AddFoodView extends StatelessWidget {
                           context: context);
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Add food successfully')));
-                      imageSelect.value=false;
+                      imageSelect.value = false;
                       _image = null;
                       nameFoodController.clear();
                       descriptionFoodController.clear();
                       priceFoodController.clear();
                       category = null;
-
                     } catch (error) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text('$error')));
