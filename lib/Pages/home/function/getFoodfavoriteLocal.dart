@@ -7,7 +7,7 @@ import '../../../strings.dart';
 Future<List<FoodModel>> getFoodFavoriteLocal() async {
   final prefs = await SharedPreferences.getInstance();
 
-  // استرجاع البيانات المخزنة كـ String
+  // اyrj3 donne String
   String? storedData = prefs.getString(FoodData);
 
   if (storedData != null) {
@@ -15,7 +15,7 @@ Future<List<FoodModel>> getFoodFavoriteLocal() async {
     List<FoodModel> foodList = jsonList.map((item) => FoodModel.fromJson(item)).toList();
     return foodList;
   } else {
-    // إذا لم تكن البيانات موجودة، إرجاع قائمة فارغة
+//kn mhnch donne yraje3 list far8a
     return [];
   }
 }

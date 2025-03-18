@@ -4,10 +4,6 @@ import 'package:my_project/Pages/auth/auth_view.dart';
 import 'package:my_project/Pages/auth/login/loginView.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 
-
-
-
-
 class RestaurantHomePage extends StatelessWidget {
   const RestaurantHomePage({super.key});
 
@@ -27,7 +23,8 @@ class RestaurantHomePage extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0), // Espacement du logo à gauche
+                  padding:
+                      const EdgeInsets.all(20.0), // Espacement du logo à gauche
                   child: ClipOval(
                     child: Image.network(
                       'https://img.freepik.com/vecteurs-premium/belle-unique-conception-logo-pour-entreprise-alimentation-restauration_1317464-450.jpg?w=740',
@@ -50,7 +47,8 @@ class RestaurantHomePage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Action pour le bouton "Découverte"
-                        Get.to(() => HomeView()); // Navigation vers Myapphomescreen
+                        Get.to(() =>
+                            HomeView()); // Navigation vers Myapphomescreen
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),

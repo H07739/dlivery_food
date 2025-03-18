@@ -59,22 +59,22 @@ class FoodModel {
   Future<void> addFood(FoodModel food) async {
     final prefs = await SharedPreferences.getInstance();
 
-    // استرجاع البيانات المخزنة كـ String
+    // اbch yjib donnnnnnne mellllll base
     String? storedData = prefs.getString(FoodData);
     List<Map<String, dynamic>> foodList = [];
 
     if (storedData != null) {
-      // تحويل البيانات المخزنة إلى List
+      // تbch yb3th donne
       foodList = List<Map<String, dynamic>>.from(json.decode(storedData));
     }
 
-    // التحقق إذا كانت البيانات موجودة بالفعل باستخدام food_id
+    // اbch y3rf donner mwjouda bel food_id
     bool foodExists = foodList.any((item) => item['food_id'] == food.id);
 
     if (!foodExists) {
-      // إذا لم تكن البيانات موجودة، أضفها إلى القائمة
+      // إkn mfmch donne yzidhe lel listet el food
       foodList.add(food.toJson());
-      // حفظ البيانات مرة أخرى في SharedPreferences
+      // حy5abi doneeeeeeeeeeee SharedPreferences
       await prefs.setString(FoodData, json.encode(foodList));
     } else {
       print("The food with ID ${food.id} already exists.");
@@ -84,21 +84,19 @@ class FoodModel {
   Future<void> removeFood(int foodId) async {
     final prefs = await SharedPreferences.getInstance();
 
-    // استرجاع البيانات المخزنة كـ String
+    // اyraje3 donne ke String
     String? storedData = prefs.getString(FoodData);
     List<Map<String, dynamic>> foodList = [];
 
     if (storedData != null) {
-      // تحويل البيانات المخزنة إلى List
+      // تy7ewl donne  lel List
       foodList = List<Map<String, dynamic>>.from(json.decode(storedData));
     }
 
-    // حذف العنصر الذي يحتوي على food_id مطابق للـ foodId
+    // yfasa555  l'élément qui contient un food_id correspondant à foodId.
     foodList.removeWhere((item) => item['food_id'] == foodId);
 
-    // حفظ البيانات المعدلة
+    //حysejl kol chy f bas b3d te8yirat w te3dilet
     await prefs.setString('food_data', json.encode(foodList));
   }
-
-
 }

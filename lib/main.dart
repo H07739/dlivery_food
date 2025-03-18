@@ -30,13 +30,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false, //bu hussein c
+      debugShowCheckedModeBanner: false, //
       title: 'My Project fgdfg',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: supabase.auth.currentUser != null ?  RestaurantHomePage() : const AuthView(),
-
 
     );
 
