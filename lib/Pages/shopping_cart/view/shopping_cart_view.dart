@@ -8,178 +8,87 @@ import '../model/food_item_cart.dart';
 class ShoppingCartView extends StatelessWidget {
   const ShoppingCartView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return ValueListenableBuilder<List<FoodItemCart>>(
       valueListenable: ShoppingCartDB.itemsShoppingFood,
       builder: (BuildContext context, List<FoodItemCart> value, Widget? child) {
         return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text(
-              'Cart',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'Cart',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              leading: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.arrow_back_ios),
+              ),
             ),
-            leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: const Icon(Icons.arrow_back_ios),
-            ),
-          ),
-          body: Stack(
-            children: [
+            body: Stack(children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 60), // لإعطاء مساحة للزر
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height/2,
-                      child: ListView.builder(
-                          itemCount: ShoppingCartDB.itemsShoppingFood.value.length,
-                          itemBuilder: (BuildContext context,int index){
-                            return Card(
-                              child: ListTile(
-
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    ShoppingCartDB.itemsShoppingFood.value[index].foodModel.image,
+                  padding:
+                      const EdgeInsets.only(bottom: 60), // لإعطاء مساحة للزر
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: ListView.builder(
+                            itemCount:
+                                ShoppingCartDB.itemsShoppingFood.value.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      ShoppingCartDB.itemsShoppingFood
+                                          .value[index].foodModel.image,
+                                    ),
+                                  ),
+                                  title: Text(ShoppingCartDB.itemsShoppingFood
+                                      .value[index].foodModel.name),
+                                  subtitle: Text(
+                                      '${ShoppingCartDB.itemsShoppingFood.value[index].foodModel.price}\$'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () {},
+                                      ),
+                                      Text(
+                                        "${ShoppingCartDB.itemsShoppingFood.value[index].detailListModel.count.value}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () {},
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                title: Text(ShoppingCartDB.itemsShoppingFood.value[index].foodModel.name),
-                                subtitle:  Text('${ShoppingCartDB.itemsShoppingFood.value[index].foodModel.price}\$'),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: () {},
-                                    ),
-                                    Text(
-                                      "${ShoppingCartDB.itemsShoppingFood.value[index].detailListModel.count.value}",
-                                      style: TextStyle(
-                                          fontSize: 20, fontWeight: FontWeight.bold),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.add),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                    Divider(),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Total : \$ 10',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-                    )
-                  ],
-                ),
-=======
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Cart',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                bottom: 60), // bech ya3tiiiiiiiiiiiiii espace f bootoon
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: ListView.builder(
-                      itemCount: 8,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                'https://cdn.dribbble.com/userupload/34021260/file/original-9e892f40eced82b8e6e018f92779f180.png',
-                              ),
-                            ),
-                            title: const Text('Food name'),
-                            subtitle: const Text('10\$'),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove),
-                                  onPressed: () {},
-                                ),
-                                const Text(
-                                  "4",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Total : \$ 10',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
-              color: Colors.white, // couleur mte3 ariere plannnnnnnnnnnnnn
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              child: MaterialButtonX(
-                onPressed: (ValueNotifier<bool> keyNotifier) {},
-                text: const Text('CHECK OUT'),
->>>>>>> 36c2e1f4fb37a37a1f034b9959b01400dac47ac7
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.white, // لون الخلفية لضمان ظهور الزر
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  child: MaterialButtonX(
-                    onPressed: (ValueNotifier<bool> keyNotifier) {},
-                    text: const Text('CHECK OUT'),
-
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+                              );
+                            }),
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Total : \$ 10',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ))
+            ]));
       },
     );
   }
