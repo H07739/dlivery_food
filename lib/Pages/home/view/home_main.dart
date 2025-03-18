@@ -9,6 +9,7 @@ import '../../../color.dart';
 import 'package:get/get.dart';
 
 import '../widget/food_item.dart';
+import '../widget/icon_shopping.dart';
 
 class HomeMain extends StatelessWidget {
   HomeMain({super.key});
@@ -36,12 +37,7 @@ class HomeMain extends StatelessWidget {
             icon: Icon(Icons.notifications, color: Colors.deepOrange),
             onPressed: () {},
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.deepOrange),
-            onPressed: () {
-              Get.to(()=>ShoppingCartView());
-            },
-          ),
+          IconShopping(),
         ],
       ),
       body:SafeArea(

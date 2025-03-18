@@ -14,7 +14,7 @@ class FoodModel {
   final String category;
   final String seller;
   bool is_favorite;
-  final String manager;
+
   FoodModel({
     required this.id,
     required this.createdAt,
@@ -25,7 +25,7 @@ class FoodModel {
     required this.category,
     required this.seller,
     required this.is_favorite,
-    required this.manager,
+
   });
 
   factory FoodModel.fromJson(Map<String, dynamic> json) {
@@ -39,7 +39,7 @@ class FoodModel {
       category: json['categorys'],
       seller: json['manager'],
       is_favorite: json['is_favorite'],
-      manager: json['manager'],
+
     );
   }
 
@@ -52,7 +52,6 @@ class FoodModel {
       'food_description': description,
       'food_price': price,
       'categorys': category,
-      'manager': manager,
       'is_favorite': is_favorite,
     };
   }

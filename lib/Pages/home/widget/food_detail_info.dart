@@ -4,10 +4,10 @@ import 'package:my_project/widgets/favorite_item.dart';
 
 
 class FoodDetailInfo extends StatelessWidget {
-  FoodDetailInfo({super.key,required this.product,required this.pirce});
+  FoodDetailInfo({super.key,required this.product,required this.pirce,required this.count});
   FoodModel product;
   ValueNotifier<double> pirce;
-  ValueNotifier<int> count =  ValueNotifier(1);
+  ValueNotifier<int> count;
 
   @override
   Widget build(BuildContext context) {

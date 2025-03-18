@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:my_project/Pages/add_food/function/uploadImage.dart';
 import 'package:my_project/main.dart';
 
+import '../../../strings.dart';
+
 Future<void> addFood({
   required String name,
   required File imageFile,
@@ -20,7 +22,7 @@ Future<void> addFood({
 
     if(image == null) throw 'Failed to upload image';
 
-    var result = await supabase.from('food').insert({
+    var result = await supabase.from(Table_Food).insert({
       "name": name, // ok
       "image": image, // ok
       "description": description, // ok

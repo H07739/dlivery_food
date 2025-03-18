@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:my_project/Pages/add_food/function/uploadImage.dart';
 import 'package:my_project/main.dart';
 
+import '../../../strings.dart';
+
 Future<void> addCategory({
   required String name,
   required File imageFile,
@@ -13,7 +15,7 @@ Future<void> addCategory({
     String? image;
     if(supabase.auth.currentUser == null) throw 'user is not login ';
 
-    image = await uploadImage(imageFile: imageFile, pathFolder: 'categorys', context: context);
+    image = await uploadImage(imageFile: imageFile, pathFolder: Table_Categorys, context: context);
 
     if(image == null) throw 'Failed to upload image';
 
