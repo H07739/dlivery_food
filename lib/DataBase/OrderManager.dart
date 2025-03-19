@@ -1,36 +1,74 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Pages/shopping_cart/model/FoodOrderModel.dart';
 
-import '../Pages/shopping_cart/model/food_item_cart.dart';
+class OrderManager {
+  static ValueNotifier<List<FoodOrderModel>> orders = ValueNotifier([]);
+  static ValueNotifier<double> totalPrice = ValueNotifier(0.0);
 
-class ShoppingCartDB{
-  static ValueNotifier<List<FoodItemCart>> oredes=ValueNotifier([]);
 
-  static void updateItem(FoodItemCart item) {
-    final items = List<FoodItemCart>.from(itemsShoppingFood.value);
-    final index = items.indexWhere((element) => element.id == item.id);
-    print(item.id);
 
-    if (index != -1) {
-      items[index] = item;
-      itemsShoppingFood.value = [...items]; // إعادة تعيين القائمة لتحديث جميع المستمعين
-      print('updateItem');
-    }
-    else{
-      print('Item not found');
+
+
+
+
+  /// ✅ إضافة طلب جديد
+  static Future<void> addOrder(FoodOrderModel order) async {
+    orders.value.add(order);
+    orders.notifyListeners();
+
+  }
+
+  /// ✅ إزالة الطلب
+  static Future<void> removeOrder(int index) async {
+    if (index >= 0 && index < orders.value.length) {
+      orders.value.removeAt(index);
+      orders.notifyListeners();
+
     }
   }
 
-
-  /// حذف عنصر من السلة باستخدام الـ ID
-  static void removeItem(String itemId) {
-    final items = List<FoodItemCart>.from(itemsShoppingFood.value)
-        .where((item) => item.id != itemId)
-        .toList();
-    itemsShoppingFood.value = items;
+  /// ✅ تحديث طلب معين
+  static void updateOrder(int index, FoodOrderModel updatedOrder) {
+    if (index >= 0 && index < orders.value.length) {
+      orders.value[index] = updatedOrder;
+      orders.notifyListeners();
+    }
   }
 
-  /// حذف جميع العناصر من السلة
-  static void clearCart() {
-    itemsShoppingFood.value = [];
+  /// ✅ تحديث عدد الطلبات
+  static Future<void> updateOrderCount(int index, int newCount) async {
+    if (index >= 0 && index < orders.value.length) {
+      if (newCount > 0) {
+        orders.value[index].setCount(newCount);
+
+
+      } else {
+        removeOrder(index);
+      }
+      orders.notifyListeners();
+
+    }
+  }
+
+  /// ✅ مسح جميع الطلبات
+  static Future<void> clearOrders() async {
+    orders.value.clear();
+    orders.notifyListeners();
+
   }
 }
+
+/// ✅ **إضافة مستمع لإعادة حساب السعر الكلي عند أي تغيير في الطلبات**
+void setupOrderListener() {
+  OrderManager.orders.addListener(() {
+    OrderManager.totalPrice.value = OrderManager.orders.value.fold(
+      0.0,
+          (sum, order) => sum + order.totalPrice.value,
+    );
+  });
+}
+
+
+

@@ -52,6 +52,7 @@ class FoodModel {
       'food_description': description,
       'food_price': price,
       'categorys': category,
+      'manager':seller,
       'is_favorite': is_favorite,
     };
   }

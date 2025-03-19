@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:my_project/Pages/add_food/view/add_food_view.dart';
+import 'package:my_project/DataBase/OrderManager.dart';
+import 'package:my_project/Pages/home/view/home_view.dart';
+import 'package:my_project/test_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
-import 'package:my_project/Pages/auth/wellcom_view.dart';
 
-import 'Pages/category/view/add_category.dart';
-import 'Pages/home/view/food_detail_view.dart';
 
 late SupabaseClient supabase;
 
@@ -20,6 +19,7 @@ void main() async {
   );
 
   supabase = Supabase.instance.client;
+  setupOrderListener();
 
   runApp(const MyApp());
 }
@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: supabase.auth.currentUser != null ?  RestaurantHomePage() : const AuthView(),
+      home: supabase.auth.currentUser != null ?  HomeView() : const AuthView(),
+     // home: TestView(),
 
     );
 

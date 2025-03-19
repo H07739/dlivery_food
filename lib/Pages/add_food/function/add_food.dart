@@ -28,7 +28,7 @@ Future<void> addFood({
       "description": description, // ok
       "price": price, // ok
       "categorys": categorys, //ok
-      "manager":supabase.auth.currentUser!.id, // ok
+      "admin":supabase.auth.currentUser!.id, // ok
     });
     print('Food added successfully : $result');
   }

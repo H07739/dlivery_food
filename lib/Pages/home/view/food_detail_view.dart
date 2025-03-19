@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/image_food_detail.dart';
+import '../../../strings.dart';
+import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../function/addFoodToCart.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
 import '../widget/icon_shopping.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductDetailPage extends StatelessWidget {
   FoodModel product;
+  late FoodOrderModel orderModel;
   ProductDetailPage(
       {super.key,
-      required this.product});
+      required this.product}){
+    orderModel = FoodOrderModel(foodModel: product);
+    detailsMe = orderModel.details;
+  }
 
 
-  FoodDetailListModel detailListModel =FoodDetailListModel();
-
-  ValueNotifier<double> price = ValueNotifier(0);
+  late ValueNotifier<List<FoodDetailModel>> detailsMe;
 
 
   @override
   Widget build(BuildContext context) {
 
-    price.value = double.tryParse(product.price) ?? 0.0;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -31,6 +36,7 @@ class ProductDetailPage extends StatelessWidget {
           IconShopping(),
         ],
       ),
+
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -38,95 +44,67 @@ class ProductDetailPage extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
-                  ImageFoodDetail(
-                    product: product,
-                  ),
-                  FoodDetailInfo(
-                    product: product,
-                    pirce: price,
-                    count: detailListModel.count,
-                  ),
+                  ImageFoodDetail(product: product),
+                  FoodDetailInfo(orderModel: orderModel),
                   ValueListenableBuilder<List<FoodDetailModel>>(
-                    valueListenable: detailListModel.details,
-                    builder: (BuildContext context, List<FoodDetailModel> value,
-                        Widget? child) {
+                    valueListenable: detailsMe,
+                    builder: (context, value, child) {
                       return Column(
-                        children: [
-                          for (var i = 0; i < value.length; i++)
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: value[i].check,
-                                  onChanged: (bool? newValue) {
-                                    if (newValue != null) {
-                                      // تحديث الحالة
-                                      value[i].check = newValue;
-                                      if (newValue) {
-                                        price.value += value[i].pirec *
-                                            detailListModel.count
-                                                .value; // إضافة السعر عند التحديد
-                                      } else {
-                                        price.value -= value[i].pirec *
-                                            detailListModel.count
-                                                .value; // خصم السعر عند الإلغاء
-                                      }
-
-                                      // تحديث `details` ليعكس التغيير
-                                      detailListModel.details.value = List.from(value);
-                                    }
-                                  },
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  value[i].name,
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  "${value[i].pirec} D",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
+                        children: value.map((item) => Row(
+                          children: [
+                            Checkbox(
+                              value: item.check,
+                              onChanged: (bool? newValue) {
+                                if (newValue != null) {
+                                  item.check = newValue;
+                                  orderModel.toggleExtra(item);
+                                  detailsMe.value = List.from(value);
+                                }
+                              },
                             ),
-                        ],
+                            SizedBox(width: 8),
+                            Text(item.name, style: TextStyle(fontSize: 18)),
+                            SizedBox(width: 8),
+                            Text("${item.price} D", style: TextStyle(fontSize: 16)),
+                          ],
+                        )).toList(),
                       );
                     },
                   ),
-                  SizedBox(height: 20),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(12),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            addFoodToCart(context: context, detailListModel: detailListModel, foodModel:product);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrange,
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 30),
-                            textStyle: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: Colors.deepOrange),
-                            ),
-                          ),
-                          child: Text("Add To Cart"),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 100), // تأكد من وجود مساحة كافية فوق الزر
                 ],
               ),
             ),
-          )
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    OrderManager.addOrder(orderModel);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrange,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.deepOrange),
+                    ),
+                  ),
+                  child: Text("Add To Cart"),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
+
     );
   }
 }

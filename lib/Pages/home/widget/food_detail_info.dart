@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/widgets/favorite_item.dart';
 
+import '../../shopping_cart/model/FoodOrderModel.dart';
+
 
 class FoodDetailInfo extends StatelessWidget {
-  FoodDetailInfo({super.key,required this.product,required this.pirce,required this.count});
-  FoodModel product;
-  ValueNotifier<double> pirce;
-  ValueNotifier<int> count;
+  FoodDetailInfo({super.key,required this.orderModel});
+  FoodOrderModel orderModel;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class FoodDetailInfo extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                product.name,
+                orderModel.foodModel.name,
                 style:
                 TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -27,13 +27,13 @@ class FoodDetailInfo extends StatelessWidget {
             Row(
               children: [
                 FavoriteItem(
-                  like: product.is_favorite,
+                  like: orderModel.foodModel.is_favorite,
                   onPressed: (bool state) {
-                    product.is_favorite = state;
+                    orderModel.foodModel.is_favorite = state;
                     if (state) {
-                      product.addFood(product);
+                      orderModel.foodModel.addFood(orderModel.foodModel);
                     } else {
-                      product.removeFood(product.id);
+                      orderModel.foodModel.removeFood(orderModel.foodModel.id);
                     }
                   },
                 ),
@@ -45,7 +45,7 @@ class FoodDetailInfo extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ValueListenableBuilder<double>(valueListenable: pirce, builder: (BuildContext context, double value, Widget? child) {
+            ValueListenableBuilder<double>(valueListenable: orderModel.totalPrice, builder: (BuildContext context, double value, Widget? child) {
               return Text(
                 "$value D",
                 style: TextStyle(
@@ -59,14 +59,14 @@ class FoodDetailInfo extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.remove),
                   onPressed: () {
-                    if (count.value > 1) {
-                      count.value--;
-                      pirce.value -= (pirce.value / (count.value + 1));
+                    if (orderModel.count.value > 1) {
+                      orderModel.setCount(orderModel.count.value - 1);
                     }
                   },
                 ),
+
                 ValueListenableBuilder<int>(
-                  valueListenable: count,
+                  valueListenable: orderModel.count,
                   builder: (BuildContext context, int value, Widget? child) {
                     return Text(
                       "$value",
@@ -74,13 +74,14 @@ class FoodDetailInfo extends StatelessWidget {
                     );
                   },
                 ),
+
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    count.value++;
-                    pirce.value += (pirce.value / (count.value - 1));
+                    orderModel.setCount(orderModel.count.value + 1);
                   },
                 ),
+
               ],
             ),
 

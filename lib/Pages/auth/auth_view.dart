@@ -69,18 +69,7 @@ class AuthView extends StatelessWidget {
                   ))
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: MaterialButton(
-                        onPressed: ()=>Get.to(()=>SignupView()),
-                        child: const Text(
-                          'Login Admin',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ))
-                ],
-              ),
+
             ],
           ),
         ),
