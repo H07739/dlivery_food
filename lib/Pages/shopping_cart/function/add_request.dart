@@ -1,13 +1,14 @@
 import 'package:my_project/Pages/shopping_cart/function/add_detail.dart';
 import 'package:my_project/main.dart';
 
+import '../../../strings.dart';
 import '../model/FoodOrderModel.dart';
 
 Future<void> addRequest(
     {required FoodOrderModel order
     }) async {
   try {
-    List<Map<String, dynamic>> d = await supabase.from('Requests').insert({
+    List<Map<String, dynamic>> d = await supabase.from(Table_Requests).insert({
       'food_id': order.foodModel.id,
       'food_count': order.count.value,
       'id_user': supabase.auth.currentUser!.id,
