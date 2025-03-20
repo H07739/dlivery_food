@@ -40,11 +40,7 @@ class SettingView extends StatelessWidget {
 
 
             ),
-            ListTile(
-              onTap: ()=>Get.to(AddFoodView()),
-              leading: Icon(Icons.food_bank,color: Colors.blue,),
-              title: Text('Add Food', style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Icon(Icons.arrow_forward),),
+
             ListTile(
               onTap: ()=>Get.to(AddCategory()),
               leading: Icon(Icons.category,color: Colors.green,),

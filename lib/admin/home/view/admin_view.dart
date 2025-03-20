@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 
-import '../color.dart';
+import '../../../widgets/bottomNavigationBar.dart';
+import '../../mange_food/view/manger_food_view.dart';
 
-class AdminView extends StatelessWidget {
+class AdminView extends StatefulWidget {
   const AdminView({super.key});
 
   @override
+  State<AdminView> createState() => _AdminViewState();
+}
+
+class _AdminViewState extends State<AdminView> {
+  List<Widget> pages=[
+    MangerFoodView(),
+  ];
+  int index=0;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Admin Manger'),
-        backgroundColor: kprimaryColor,
+      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomnavigationbarAdmin(
+        index: (int index) {
+          setState(() {
+            this.index = index;
+          });
+
+        },
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(width: double.infinity,),
-          MaterialButton(
-            onPressed: () {},
-            color: kBannerColor,
-            child: Text('Manger Food',style: TextStyle(color: Colors.white),),
-          ),
-          MaterialButton(
-            onPressed: () {},
-            color: kBannerColor,
-            child: Text('Manger Categoty',style: TextStyle(color: Colors.white),),
-          ),
-        ],
-      ),
+      body: pages[index],
     );
   }
 }
+

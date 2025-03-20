@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 import 'package:my_project/Pages/profile/profile_view.dart';
+import 'package:my_project/admin/home/view/admin_view.dart';
 import 'package:my_project/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../strings.dart';
 import '../../../widgets/MaterialButtonX.dart';
 import '../../profile/text_field.dart';
 
@@ -53,7 +55,25 @@ class Loginview extends StatelessWidget {
                 keyNotifier.value=true;
                 await supabase.auth.signInWithPassword(email:controllerEmail.text,password: controllerPassword.text);
                 keyNotifier.value=false;
-                Get.off(()=>HomeView());
+
+                List<Map<String,dynamic>> admin = await supabase.from(Table_Admins).select('*').eq('uuid',supabase.auth.currentUser!.id);
+
+                if(admin.isNotEmpty){
+                  await supabase.auth.updateUser(
+                    UserAttributes(
+                      data: {
+                        "admin":true,
+                      },
+                    ),
+                  );
+                  Get.off(()=>AdminView());
+                }
+                else{
+                  Get.off(()=>HomeView());
+                }
+
+
+
               }
               on AuthException catch(e){
                 keyNotifier.value=false;

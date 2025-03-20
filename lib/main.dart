@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
+import 'package:my_project/strings.dart';
 import 'package:my_project/test_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
 
+import 'admin/home/view/admin_view.dart';
 
 late SupabaseClient supabase;
 
@@ -15,7 +17,8 @@ void main() async {
   // Initialisation de Supabase
   await Supabase.initialize(
     url: 'https://nbwsqixsnycekwvdyxsl.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5id3NxaXhzbnljZWt3dmR5eHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyODE3MjgsImV4cCI6MjA1Mzg1NzcyOH0.XJXaG-bQzhof2MwHwHMsTeMbat9fiG8fULI0N2oVPCQ',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5id3NxaXhzbnljZWt3dmR5eHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyODE3MjgsImV4cCI6MjA1Mzg1NzcyOH0.XJXaG-bQzhof2MwHwHMsTeMbat9fiG8fULI0N2oVPCQ',
   );
 
   supabase = Supabase.instance.client;
@@ -35,12 +38,42 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: supabase.auth.currentUser != null ?  HomeView() : const AuthView(),
-     // home: TestView(),
-
+      home: FutureBuilder<Widget>(
+        future: check(),
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(body: const Center(child: CircularProgressIndicator()));
+          }
+          return snapshot.data!;
+        },
+      ),
+      // home: TestView(),
     );
+  }
 
+  Future<Widget> check() async {
+    final user = supabase.auth.currentUser;
+
+    if (user == null) {
+      return const AuthView();
+    }
+
+    List<Map<String,dynamic>> admin = await supabase.from(Table_Admins).select('*').eq('uuid',supabase.auth.currentUser!.id);
+
+    if(admin.isNotEmpty){
+      await supabase.auth.updateUser(
+        UserAttributes(
+          data: {
+            "admin":true,
+          },
+        ),
+      );
+      return AdminView();
+
+    }
+
+    else {
+      return HomeView();
+    }
   }
 }
-
-

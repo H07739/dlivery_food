@@ -65,3 +65,69 @@ class _BottomnavigationbarXState extends State<BottomnavigationbarX> {
     );
   }
 }
+
+
+
+class BottomnavigationbarAdmin extends StatefulWidget {
+  BottomnavigationbarAdmin({super.key,required this.index});
+  Function(int index) index;
+
+  @override
+  State<BottomnavigationbarAdmin> createState() => _BottomnavigationbarAdminState();
+}
+
+class _BottomnavigationbarAdminState extends State<BottomnavigationbarAdmin> {
+  int selectedIndex=0;
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      iconSize: 28,
+      currentIndex: selectedIndex,
+      selectedItemColor: kprimaryColor,
+      unselectedItemColor: Colors.grey,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: const TextStyle(
+        color: kprimaryColor,
+        fontWeight: FontWeight.w600,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      onTap: (value) {
+        setState(() {
+          selectedIndex = value;
+        });
+        widget.index(selectedIndex);
+      },
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(
+            selectedIndex == 0 ? Icons.fastfood_sharp : Icons.fastfood_outlined,
+          ),
+          label: "Food",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            selectedIndex == 1 ? Iconsax.category : Iconsax.category1,
+          ),
+          label: "Category",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            selectedIndex == 2 ? Iconsax.calendar5 : Iconsax.calendar,
+          ),
+          label: "Meal Plan",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            selectedIndex == 3 ? Iconsax.setting_21 : Iconsax.setting_2,
+          ),
+          label: "Setting",
+        ),
+      ],
+    );
+  }
+}
