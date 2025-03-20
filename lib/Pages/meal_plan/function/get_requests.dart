@@ -12,7 +12,7 @@ Future<List<MealPlanModel>> getRequests()async{
 
     List<MealPlanModel> orders =[];
 
-    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('id_user', supabase.auth.currentUser!.id);
+    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('id_user', supabase.auth.currentUser!.id).order('id', ascending: false);
 
     for(var request in requests){
 
