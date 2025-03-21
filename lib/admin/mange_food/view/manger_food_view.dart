@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Pages/add_food/view/add_food_view.dart';
+import '../../add_food/view/add_food_view.dart';
+
 
 class MangerFoodView extends StatelessWidget {
   const MangerFoodView({super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_project/Pages/add_food/view/add_food_view.dart';
 import 'package:my_project/Pages/category/view/add_category.dart';
 
 class SettingView extends StatelessWidget {

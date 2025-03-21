@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:my_project/Pages/add_food/function/pickImage.dart';
 import 'package:my_project/Pages/category/function/add_category.dart';
 import 'package:my_project/color.dart';
 import 'package:get/get.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
+
+import '../../../admin/add_food/function/pickImage.dart';
 class AddCategory extends StatelessWidget {
   AddCategory({super.key});
   ValueNotifier<bool> imageSelect = ValueNotifier(false);

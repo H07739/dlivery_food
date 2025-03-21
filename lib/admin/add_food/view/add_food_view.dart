@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_project/Pages/add_food/function/add_food.dart';
 import 'package:my_project/color.dart';
 import 'package:get/get.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
-
+import '../../../Pages/home/function/getCategorys.dart';
+import '../../../Pages/home/model/category_model.dart';
+import '../../../Pages/home/widget/selectedCategory.dart';
 import '../../../widgets/FutureBuilderX.dart';
-import '../../home/function/getCategorys.dart';
-import '../../home/model/category_model.dart';
-import '../../home/widget/selectedCategory.dart';
+import '../function/add_food.dart';
 import '../function/pickImage.dart';
 
 class AddFoodView extends StatelessWidget {

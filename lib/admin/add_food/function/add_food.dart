@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:my_project/Pages/add_food/function/uploadImage.dart';
+import 'package:my_project/admin/add_food/function/uploadImage.dart';
 import 'package:my_project/main.dart';
 
 import '../../../strings.dart';
