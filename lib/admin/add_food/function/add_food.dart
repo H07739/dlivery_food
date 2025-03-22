@@ -12,6 +12,7 @@ Future<void> addFood({
   required String description,
   required String price,
   required String categorys,
+  required int idcategory,
   required BuildContext context
 })async{
   try{
@@ -29,6 +30,7 @@ Future<void> addFood({
       "price": price, // ok
       "categorys": categorys, //ok
       "admin":supabase.auth.currentUser!.id, // ok
+      "id_category":idcategory
     });
     print('Food added successfully : $result');
   }

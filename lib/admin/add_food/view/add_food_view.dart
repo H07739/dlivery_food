@@ -15,6 +15,7 @@ import '../function/pickImage.dart';
 class AddFoodView extends StatelessWidget {
   AddFoodView({super.key});
   String? category;
+  late int idCategory;
   TextEditingController nameFoodController = TextEditingController();
   TextEditingController descriptionFoodController = TextEditingController();
   TextEditingController priceFoodController = TextEditingController();
@@ -64,6 +65,7 @@ class AddFoodView extends StatelessWidget {
                   return Selectedcategory(
                     onSelected: (int index) {
                       category = data[index].name;
+                      idCategory = data[index].id;
                     },
                     categorys: data,
                   );
@@ -177,7 +179,7 @@ class AddFoodView extends StatelessWidget {
                           description: descriptionFoodController.text,
                           price: priceFoodController.text,
                           categorys: category!,
-                          context: context);
+                          context: context, idcategory: idCategory);
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Add food successfully')));
                       imageSelect.value = false;

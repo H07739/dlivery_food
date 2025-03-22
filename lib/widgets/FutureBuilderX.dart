@@ -32,7 +32,7 @@ class FutureBuilderX<T> extends StatelessWidget {
                   children: [
                     Expanded(child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: OutlinedButton(onPressed: ()=>_keyNotifier.value++, child: const Text('اعادة المحاولة',style: TextStyle(color: Colors.red),)),
+                      child: OutlinedButton(onPressed: ()=>_keyNotifier.value++, child: const Text('Try Again',style: TextStyle(color: Colors.red),)),
                     )),
                   ],
                 ),
