@@ -11,7 +11,7 @@ class MangerFoodView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Manger Food',style: TextStyle(color: Colors.white),),backgroundColor:Colors.orangeAccent,),
+      appBar: AppBar(title: Text('Manger Food',style: TextStyle(color: Colors.white),),backgroundColor:Colors.deepOrange,),
       body: Column(
 
         children: [

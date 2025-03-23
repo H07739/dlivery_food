@@ -10,7 +10,7 @@ import '../model/food_admin_model.dart';
 Future<String?> updateFood({required FoodAdminModel model,File? imageFile,required BuildContext context})async{
   try {
     if (imageFile!= null) {
-      String? imageUrl = await uploadImage(imageFile: imageFile, pathFolder: 'food', context: context);
+      String? imageUrl = await uploadImage(imageFile: imageFile, pathFolder: 'food', context: context,url: model.image);
       if(imageUrl != null){
         model.image = imageUrl;
 

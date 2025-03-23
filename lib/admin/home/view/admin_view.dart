@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../widgets/bottomNavigationBar.dart';
+import '../../mange_category/view/mange_category_view.dart';
 import '../../mange_food/view/manger_food_view.dart';
 
 class AdminView extends StatefulWidget {
@@ -13,6 +14,7 @@ class AdminView extends StatefulWidget {
 class _AdminViewState extends State<AdminView> {
   List<Widget> pages=[
     MangerFoodView(),
+    MangeCategoryView(),
   ];
   int index=0;
   @override

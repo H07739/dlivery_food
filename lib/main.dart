@@ -38,16 +38,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: FutureBuilder<Widget>(
-      //   future: check(),
-      //   builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return Scaffold(body: const Center(child: CircularProgressIndicator()));
-      //     }
-      //     return snapshot.data!;
-      //   },
-      // ),
-       home: AdminView(),
+      home: FutureBuilder<Widget>(
+        future: check(),
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(body: const Center(child: CircularProgressIndicator()));
+          }
+          return snapshot.data!;
+        },
+      ),
+
     );
   }
 

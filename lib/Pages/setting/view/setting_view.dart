@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_project/Pages/category/view/add_category.dart';
+import 'package:my_project/admin/mange_category/view/add_category.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({super.key});

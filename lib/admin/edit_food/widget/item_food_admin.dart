@@ -160,14 +160,14 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                   height: 10,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Expanded(
-                        child: MaterialButtonX(
-                      text: Text(
-                        'Update Food',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: (ValueNotifier<bool> keyNotifier) async {
+                    MaterialButtonX(
+                        text: Text(
+                          'Update Food',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: (ValueNotifier<bool> keyNotifier) async {
 
                           try {
 
@@ -182,35 +182,27 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                             }
 
                             keyNotifier.value = true;
-                          String? url = await updateFood(
-                              model: widget.model.foodAdminModel,
-                              context: context,
-                              imageFile: imageFile);
+                            String? url = await updateFood(
+                                model: widget.model.foodAdminModel,
+                                context: context,
+                                imageFile: imageFile);
 
-                          if(url != null){
-                            widget.model.foodAdminModel.image = url;
-                            imageFile=null;
-                            imageSelect.value=false;
+                            if(url != null){
+                              widget.model.foodAdminModel.image = url;
+                              imageFile=null;
+                              imageSelect.value=false;
+                            }
+
+                            keyNotifier.value = false;
+                          } catch (error) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text('$error')));
+                            keyNotifier.value = false;
                           }
-
-                          keyNotifier.value = false;
-                        } catch (error) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text('$error')));
-                          keyNotifier.value = false;
-                        }
                         }
 
-                    ))
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: MaterialButtonX(
+                    ),
+                    MaterialButtonX(
                       color: Colors.red,
                       text: Text(
                         'Deleted Food',
@@ -238,9 +230,12 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                           keyNotifier.value = false;
                         }
                       },
-                    ))
+                    )
                   ],
                 ),
+
+
+
               ],
             ),
           ),
