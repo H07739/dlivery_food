@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/Pages/setting/view/setting_view.dart';
+import '../../../admin/setting/view/seeting_view.dart';
 import '../../../widgets/bottomNavigationBar.dart';
 import '../../meal_plan/view/meal_plan_view.dart';
 import 'home_main.dart';
@@ -17,7 +18,7 @@ class _HomeViewState extends State<HomeView> {
     HomeMain(),
     FavoriteScreen(),
     MealPlanView(),
-    SettingView(),
+    SeetingView(),
   ];
   int index=0;
   @override

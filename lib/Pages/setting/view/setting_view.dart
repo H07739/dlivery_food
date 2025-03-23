@@ -40,11 +40,7 @@ class SettingView extends StatelessWidget {
 
             ),
 
-            ListTile(
-              onTap: ()=>Get.to(AddCategory()),
-              leading: Icon(Icons.category,color: Colors.green,),
-              title: Text('Add Category', style: TextStyle(fontWeight: FontWeight.bold)),
-              trailing: Icon(Icons.arrow_forward),)
+
           ],
         ),
       ),
