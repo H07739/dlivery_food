@@ -25,6 +25,7 @@ class MangeCategoryView extends StatelessWidget {
             title: Text('My Category', style: TextStyle(fontWeight: FontWeight.bold)),
             trailing: Icon(Icons.arrow_forward),),
           Divider(),
+
         ],
       ),
     );

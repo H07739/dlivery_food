@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_project/admin/add_food/function/pickImage.dart';
 import 'package:my_project/admin/mange_category/function/delete_category.dart';
 import 'package:my_project/admin/mange_category/function/update_category.dart';
@@ -8,10 +9,14 @@ import 'package:my_project/admin/mange_category/model/category_admin_model.dart'
 import 'package:my_project/widgets/image_view.dart';
 
 import '../../../widgets/MaterialButtonX.dart';
+import '../../../widgets/showDialog.dart';
 
 class ItemCategortAdmin extends StatefulWidget {
   ItemCategortAdmin(
-      {super.key, required this.model, required this.categoryList,required this.index});
+      {super.key,
+      required this.model,
+      required this.categoryList,
+      required this.index});
   CategoryAdminModel model;
   ValueNotifier<List<CategoryAdminModel>> categoryList;
   int index;
@@ -74,23 +79,26 @@ class _ItemCategortAdminState extends State<ItemCategortAdmin> {
               ),
               subtitle: Text(" Time : ${widget.model.createdAt.toString()}"),
               trailing: IconButton(
-                onPressed: () async {
-                  try {
-                    await deleteCategory(model: widget.model, context: context);
+                onPressed: () {
+                  showDeleteDialog(
+                      context: context, onPressed: () async{
+                    try {
+                      await deleteCategory(model: widget.model, context: context);
 
-                    // تحديث القائمة بشكل آمن
-                    widget.categoryList.value = List.from(widget.categoryList.value)..remove(widget.model);
+                      widget.categoryList.value = List.from(widget.categoryList.value)..remove(widget.model);
 
-                    print('✅ تم حذف الفئة بنجاح');
-                  } catch (e) {
-                    print('❌ خطأ أثناء حذف الفئة: $e');
-                  }
+                      print('✅ تم حذف الفئة بنجاح');
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      print('❌ خطأ أثناء حذف الفئة: $e');
+                    }
+                  }, title: 'Delete Category', name: 'Category');
                 },
-
-                  icon: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  )),
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
             ),
             Row(
               children: [
@@ -101,13 +109,15 @@ class _ItemCategortAdminState extends State<ItemCategortAdmin> {
                     style: TextStyle(color: Colors.white),
                   ),
                   color: Colors.blue,
-                  onPressed: (ValueNotifier<bool> keyNotifier) async{
-                    try{
-                      await updateCategory(model: widget.model, context: context,file: imageFile);
-                    }
-                        catch(er){
+                  onPressed: (ValueNotifier<bool> keyNotifier) async {
+                    try {
+                      await updateCategory(
+                          model: widget.model,
+                          context: context,
+                          file: imageFile);
+                    } catch (er) {
                       print('error in update category : $er');
-                        }
+                    }
                   },
                 ))
               ],

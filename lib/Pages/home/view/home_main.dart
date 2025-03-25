@@ -13,7 +13,7 @@ import '../widget/icon_shopping.dart';
 
 class HomeMain extends StatelessWidget {
   HomeMain({super.key});
-  int categoryId = 0;
+  ValueNotifier<String?> category = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +84,8 @@ class HomeMain extends StatelessWidget {
                         Text(error),
                     doneView: (data, ValueNotifier<int> keyNotifier) {
                       return Selectedcategory(
-                        onSelected: (int index) {
-                          categoryId = index;
+                        onSelected: (int i,String index,) {
+                          category.value = index;
                         },
                         categorys: data,
                       );
@@ -101,23 +101,30 @@ class HomeMain extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  FutureBuilderX<List<FoodModel>>(
-                    future: () => getFood(index: categoryId),
-                    loadingView: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorView: (String error, ValueNotifier<int> keyNotifier) =>
-                        Text(error),
-                    doneView:
-                        (List<FoodModel> data, ValueNotifier<int> keyNotifier) {
-                      return Column(
-                        children: List.generate(data.length, (int index) {
-                          return FoodItem(
-                            model: data[index],
+                  ValueListenableBuilder<String?>(
+                    valueListenable: category,
+                    builder: (BuildContext context, String? value, Widget? child) {
+                      return FutureBuilderX<List<FoodModel>>(
+                        future: () => getFood(category: value),
+                        loadingView: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorView: (String error, ValueNotifier<int> keyNotifier) =>
+                            Text(error),
+                        doneView:
+                            (List<FoodModel> data, ValueNotifier<int> keyNotifier) {
+                          if(data.isEmpty)return Center(child: Text('Not Found Food in This category'),);
+                          return Column(
+                            children: List.generate(data.length, (int index) {
+                              return FoodItem(
+                                model: data[index],
+                              );
+                            }),
                           );
-                        }),
+                        },
                       );
                     },
+
                   ),
                  // headerParts(),
                 ],

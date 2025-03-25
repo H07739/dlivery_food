@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_project/Pages/home/model/category_model.dart';
 import 'package:my_project/admin/add_food/function/pickImage.dart';
 import 'package:my_project/admin/add_food/function/uploadImage.dart';
 import 'package:my_project/admin/edit_food/function/update_food.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
 import '../../../widgets/image_view.dart';
+import '../../../widgets/showDialog.dart';
 import '../function/delet_food.dart';
 import '../model/EditFoodModel.dart';
 
@@ -209,26 +211,26 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: (ValueNotifier<bool> keyNotifier) async{
-                        try {
-                          keyNotifier.value = true;
+                        showDeleteDialog(context: context, onPressed: () async{
+                          try {
+                            keyNotifier.value = true;
 
+                            await deleteFood(idFood:widget.model.foodAdminModel.id, context: context);
 
-                          showDeleteFoodDialog(context: context, onPressed: () async{
-                            await deleteFood(
-                                idFood: widget.model.foodAdminModel.id);
                             keyNotifier.value = false;
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text('Deleted Food')));
                             widget.onDelete(widget.index);
-                          });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Deleted Food'))
+                            );
 
 
+                          } catch (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('$error'))
+                            );
+                          }
 
-                        } catch (error) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text('$error')));
-                          keyNotifier.value = false;
-                        }
+                        }, title: 'Delete Food', name: 'Food');
                       },
                     )
                   ],
@@ -243,34 +245,5 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
       ),
     );
   }
-  Future<void> showDeleteFoodDialog(
-      {required BuildContext context,required  Function() onPressed}) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Delete Food"),
-          content: Text("Are you sure you want to delete this food item?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onPressed();
 
-
-              },
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: Text("Delete"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }

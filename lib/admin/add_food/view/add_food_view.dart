@@ -63,9 +63,11 @@ class AddFoodView extends StatelessWidget {
                 doneView:
                     (List<CategoryModel> data, ValueNotifier<int> keyNotifier) {
                   return Selectedcategory(
-                    onSelected: (int index) {
-                      category = data[index].name;
+                    onSelected: (int index,String category) {
+
+                      this.category=category;
                       idCategory = data[index].id;
+                      print(idCategory);
                     },
                     categorys: data,
                   );

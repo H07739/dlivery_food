@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/image_food_detail.dart';
-import '../../../strings.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
-import '../function/addFoodToCart.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
 import '../widget/icon_shopping.dart';
-import 'package:uuid/uuid.dart';
 
 class ProductDetailPage extends StatelessWidget {
   FoodModel product;

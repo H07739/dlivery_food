@@ -6,7 +6,7 @@ import 'package:my_project/widgets/image_view.dart';
 class Selectedcategory extends StatefulWidget {
   Selectedcategory(
       {super.key, required this.onSelected, required this.categorys});
-  Function(int index) onSelected;
+  Function(int index,String category) onSelected;
   List<CategoryModel> categorys;
   int _selected = 0;
 
@@ -45,7 +45,7 @@ class _SelectedcategoryState extends State<Selectedcategory> {
                 setState(() {
                   widget._selected = index;
                 });
-                widget.onSelected(index);
+                widget.onSelected(index,widget.categorys[index].name);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
