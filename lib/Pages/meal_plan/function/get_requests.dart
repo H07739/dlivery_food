@@ -7,12 +7,12 @@ import '../../../strings.dart';
 import '../../home/model/food_detail_model.dart';
 import '../model/meal_plan_model.dart';
 
-Future<List<MealPlanModel>> getRequests()async{
+Future<List<MealPlanModel>> getRequests({String? coulum})async{
   try{
 
     List<MealPlanModel> orders =[];
 
-    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('id_user', supabase.auth.currentUser!.id).order('id', ascending: false);
+    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq(coulum ?? 'id_user', supabase.auth.currentUser!.id).order('id', ascending: false);
 
     for(var request in requests){
 

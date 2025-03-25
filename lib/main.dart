@@ -4,6 +4,7 @@ import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 import 'package:my_project/strings.dart';
 import 'package:my_project/test_view.dart';
+import 'package:my_project/widgets/FutureBuilderX.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
 
@@ -38,16 +39,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder<Widget>(
-        future: check(),
-        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(body: const Center(child: CircularProgressIndicator()));
-          }
-          return snapshot.data!;
+      //home: AdminView(),
+      home: FutureBuilderX<Widget>(
+        future: () => check(),
+        loadingView: Material(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+        errorView: (String error, ValueNotifier<int> keyNotifier) {
+          return Text(error);
+        },
+        doneView: (Widget data, ValueNotifier<int> keyNotifier) {
+          return data;
         },
       ),
-
     );
   }
 
@@ -58,21 +64,21 @@ class MyApp extends StatelessWidget {
       return const AuthView();
     }
 
-    List<Map<String,dynamic>> admin = await supabase.from(Table_Admins).select('*').eq('uuid',supabase.auth.currentUser!.id);
+    List<Map<String, dynamic>> admin = await supabase
+        .from(Table_Admins)
+        .select('*')
+        .eq('uuid', supabase.auth.currentUser!.id);
 
-    if(admin.isNotEmpty){
+    if (admin.isNotEmpty) {
       await supabase.auth.updateUser(
         UserAttributes(
           data: {
-            "admin":true,
+            "admin": true,
           },
         ),
       );
       return AdminView();
-
-    }
-
-    else {
+    } else {
       return HomeView();
     }
   }

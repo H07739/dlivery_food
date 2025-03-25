@@ -10,5 +10,14 @@ const String Table_Categorys="MenuItemCategory";
 const String Table_Food="food";
 const String Table_Food_Detail="menuItemSuplem";
 const String Table_Requests="Requests";
-
+const List<String> items = [
+  'Pending',
+  'Confirmed',
+  'Out for Delivery',
+  'Delivered',
+  'Cancelled by Customer',
+  'Cancelled by Restaurant',
+  'Failed Delivery',
+  'Refunded'
+];
 
