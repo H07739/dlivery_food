@@ -78,7 +78,7 @@ class ShoppingCartView extends StatelessWidget {
                           List<FoodOrderModel> ordersCopy = List.from(OrderManager.orders.value);
 
                           for (var model in ordersCopy) {
-                            await addRequest(order: model);
+                            await addRequest(order: model, context: context);
                             OrderManager.removeOrder(0); // احذف دائمًا أول عنصر بعد الإرسال
                           }
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Request added successfully')));
@@ -87,6 +87,7 @@ class ShoppingCartView extends StatelessWidget {
                         } catch (e) {
                           print('Error: $e');
                           v.value = false;
+                          
                         }
 
 

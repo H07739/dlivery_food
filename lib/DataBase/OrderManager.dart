@@ -55,6 +55,7 @@ class OrderManager {
   /// ✅ مسح جميع الطلبات
   static Future<void> clearOrders() async {
     orders.value.clear();
+    totalPrice.value=0;
     orders.notifyListeners();
 
   }

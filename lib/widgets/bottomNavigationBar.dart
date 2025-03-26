@@ -57,9 +57,9 @@ class _BottomnavigationbarXState extends State<BottomnavigationbarX> {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            selectedIndex == 3 ? Iconsax.setting_21 : Iconsax.setting_2,
+            selectedIndex == 3 ? Icons.person:Icons.person_2_outlined,
           ),
-          label: "Setting",
+          label: "Profile",
         ),
       ],
     );
