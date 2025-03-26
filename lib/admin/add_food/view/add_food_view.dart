@@ -45,7 +45,7 @@ class AddFoodView extends StatelessWidget {
               height: 20,
             ),
             Text(
-              'select food',
+              'Select Category',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(
