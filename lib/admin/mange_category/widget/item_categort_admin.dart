@@ -87,10 +87,10 @@ class _ItemCategortAdminState extends State<ItemCategortAdmin> {
 
                       widget.categoryList.value = List.from(widget.categoryList.value)..remove(widget.model);
 
-                      print('✅ تم حذف الفئة بنجاح');
+                      print('✅  Category deleted successfully  ');
                       Navigator.of(context).pop();
                     } catch (e) {
-                      print('❌ خطأ أثناء حذف الفئة: $e');
+                      print('❌   Error while deleting the category: $e');
                     }
                   }, title: 'Delete Category', name: 'Category');
                 },

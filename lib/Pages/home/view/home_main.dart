@@ -52,7 +52,7 @@ class HomeMain extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Catégories",
+                        "Categories",
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class HomeMain extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Produits",
+                    "Products",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,

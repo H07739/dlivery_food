@@ -9,7 +9,7 @@ class FutureBuilderX<T> extends StatelessWidget {
     required this.doneView,
   });
 
-  final Future<T> Function() future; // استخدام دالة لإعادة إنشاء Future
+  final Future<T> Function() future;// Use a function to recreate the Future  
   final ValueNotifier<int> _keyNotifier = ValueNotifier(0);
   final Widget loadingView;
   final Widget Function(String error, ValueNotifier<int> keyNotifier) errorView;
@@ -21,7 +21,7 @@ class FutureBuilderX<T> extends StatelessWidget {
       valueListenable: _keyNotifier,
       builder: (BuildContext context, int value, Widget? child) {
         return FutureBuilder<T>(
-          future: future(), // استدعاء Future جديد
+          future: future(), // Call a new Future  
           key: ValueKey(value),
           builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

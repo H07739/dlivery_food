@@ -3,16 +3,16 @@ import '../../home/model/food_detail_model.dart';
 import '../../home/model/food_model.dart';
 
 class FoodOrderModel {
-  // عدد الأطباق
+  // Number of dishes  
   ValueNotifier<int> count = ValueNotifier(1);
 
-  // قائمة الإضافات المختارة
+// List of selected additions  
   ValueNotifier<List<FoodDetailModel>> selectedExtras = ValueNotifier([]);
 
-  // السعر الإجمالي
+// Total price  
   ValueNotifier<double> totalPrice = ValueNotifier(0.0);
 
-  // موديل الطعام
+  // Model food
   FoodModel foodModel;
 
   FoodOrderModel({required this.foodModel}) {
@@ -26,7 +26,7 @@ class FoodOrderModel {
     FoodDetailModel(name: 'Egg', price: 5, check: false),
   ]);
 
-  // تبديل اختيار الإضافة
+// Toggle addition selection  
   void toggleExtra(FoodDetailModel extra) {
     if (selectedExtras.value.contains(extra)) {
       selectedExtras.value.remove(extra);
@@ -37,13 +37,13 @@ class FoodOrderModel {
     _updateTotalPrice();
   }
 
-  // تحديث العدد
+// Update the quantity  
   void setCount(int newCount) {
     count.value = newCount;
     _updateTotalPrice();
   }
 
-  // تحديث السعر النهائي
+// Update the final price  
   void _updateTotalPrice() {
     double extrasPrice =
     selectedExtras.value.fold(0.0, (sum, extra) => sum + extra.price);

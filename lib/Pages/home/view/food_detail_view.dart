@@ -68,7 +68,7 @@ class ProductDetailPage extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 100), // تأكد من وجود مساحة كافية فوق الزر
+                  SizedBox(height: 100), // 
                 ],
               ),
             ),

@@ -14,7 +14,7 @@ Future<String?> uploadImage({
     final String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
     final String path = '$pathFolder/$fileName';
 
-    // إذا كان هناك رابط للصورة القديمة، احذفه
+   // If there is an image, delete it
     try{
       if (url != null && url.isNotEmpty) {
         final Uri uri = Uri.parse(url);
@@ -22,26 +22,26 @@ Future<String?> uploadImage({
         if (segments.isNotEmpty) {
           final String oldImagePath = segments.sublist(segments.indexOf('image') + 1).join('/');
           await supabase.storage.from('image').remove([oldImagePath]);
-          print('🗑️ تم حذف الصورة القديمة: $oldImagePath');
+          print('🗑️ The old image has been deleted : $oldImagePath');
         }
       }
     }
     catch(er){
-      print('���️ خطأ أثنا�� حذف الصورة القديمة: $er');
+      print('���️ Error while deleting the old image    : $er');
     }
 
 
-    // رفع الصورة الجديدة إلى Supabase Storage
+   // upload image to Supabase Storage
     await supabase.storage.from('image').upload(path, imageFile);
 
-    // استرجاع رابط الصورة الجديدة
+    // Retrieve the new image URL
     final String publicUrl = supabase.storage.from('image').getPublicUrl(path);
 
-    print('✅ رابط الصورة الجديدة: $publicUrl');
+    print('✅   New image URL: $publicUrl');
     return publicUrl;
   } catch (e) {
-    print('❌ خطأ أثناء الرفع: $e');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('فشل الرفع!')));
+    print('❌ Error while uploading  : $e');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(' Upload failed!')));
     return null;
   }
 }

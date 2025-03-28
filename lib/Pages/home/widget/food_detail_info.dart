@@ -89,7 +89,7 @@ class FoodDetailInfo extends StatelessWidget {
         ),
         SizedBox(height: 12),
         Text(
-          "Options Supplémentaires",
+          "Supplementary Option",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
 

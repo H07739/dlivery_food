@@ -79,7 +79,7 @@ class ShoppingCartView extends StatelessWidget {
 
                           for (var model in ordersCopy) {
                             await addRequest(order: model, context: context);
-                            OrderManager.removeOrder(0); // احذف دائمًا أول عنصر بعد الإرسال
+                            OrderManager.removeOrder(0); // Always delete the first item after sending  
                           }
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Request added successfully')));
 

@@ -15,7 +15,7 @@ Future<List<FoodModel>> getFoodFavoriteLocal() async {
     List<FoodModel> foodList = jsonList.map((item) => FoodModel.fromJson(item)).toList();
     return foodList;
   } else {
-//kn mhnch donne yraje3 list far8a
+//if not information return empty list
     return [];
   }
 }

@@ -13,14 +13,14 @@ class OrderManager {
 
 
 
-  /// ✅ إضافة طلب جديد
+  /// add new order ✅ 
   static Future<void> addOrder(FoodOrderModel order) async {
     orders.value.add(order);
     orders.notifyListeners();
 
   }
 
-  /// ✅ إزالة الطلب
+  /// delete order ✅ 
   static Future<void> removeOrder(int index) async {
     if (index >= 0 && index < orders.value.length) {
       orders.value.removeAt(index);
@@ -29,7 +29,7 @@ class OrderManager {
     }
   }
 
-  /// ✅ تحديث طلب معين
+  /// Update a specific request   ✅  
   static void updateOrder(int index, FoodOrderModel updatedOrder) {
     if (index >= 0 && index < orders.value.length) {
       orders.value[index] = updatedOrder;
@@ -37,7 +37,7 @@ class OrderManager {
     }
   }
 
-  /// ✅ تحديث عدد الطلبات
+  /// ✅ Update the number of orders 
   static Future<void> updateOrderCount(int index, int newCount) async {
     if (index >= 0 && index < orders.value.length) {
       if (newCount > 0) {
@@ -52,7 +52,7 @@ class OrderManager {
     }
   }
 
-  /// ✅ مسح جميع الطلبات
+  /// ✅ Clear all orders  
   static Future<void> clearOrders() async {
     orders.value.clear();
     totalPrice.value=0;
@@ -61,7 +61,8 @@ class OrderManager {
   }
 }
 
-/// ✅ **إضافة مستمع لإعادة حساب السعر الكلي عند أي تغيير في الطلبات**
+/// ✅ **Add a listener to recalculate the total price whenever there is a change in the orders**  
+
 void setupOrderListener() {
   OrderManager.orders.addListener(() {
     OrderManager.totalPrice.value = OrderManager.orders.value.fold(
