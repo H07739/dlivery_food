@@ -46,9 +46,9 @@ class ItemOrderManger extends StatelessWidget {
               Divider(),
               Text('Quantity : ${orderModel.foodCount}'),
               Divider(),
-              ValueListenableBuilder<List<FoodDetailModel>>(
+              ValueListenableBuilder<List<FoodDetailModelX>>(
                 valueListenable: orderModel.orderModel.selectedExtras,
-                builder: (BuildContext context, List<FoodDetailModel> value,
+                builder: (BuildContext context, List<FoodDetailModelX> value,
                     Widget? child) {
                   return Column(
                     children: [

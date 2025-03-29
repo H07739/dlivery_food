@@ -25,7 +25,7 @@ Future<void> addRequest(
       'address':address
     }).select();
 
-    await addDetail(details: order.selectedExtras.value, count: order.count.value, idRequests: d[0]['id']);
+    await addDetail(details: order.selectedExtras.value, idRequests: d[0]['id']);
     print('Request added successfully! id: ${d[0]['id']}');
   } catch (error) {
     print('Error AddFoodCart : $error');

@@ -20,14 +20,15 @@ Future<List<MealPlanModel>> getRequests({String? coulum})async{
       FoodModel food = FoodModel.fromJson(foods[0]);
       FoodOrderModel foodOrderModel = FoodOrderModel(foodModel: food);
       List<Map<String,dynamic>> details = await supabase.from(Table_Food_Detail).select().eq('id_request',request['id']);
+      
       for(int i = 0; i < details.length; i++){
-        FoodDetailModel foodDetailModel;
-        if(details[i][foodOrderModel.details.value[i].name] != null){
-          foodDetailModel = foodOrderModel.details.value[i];
-          foodDetailModel.check =true;
-          foodOrderModel.toggleExtra(foodDetailModel);
-
+        List<Map<String,dynamic>> f = await supabase.from(Table_Detail).select('*').eq('id', details[i]['id_suplem']);
+        for(Map<String,dynamic> s in f ){
+          foodOrderModel.toggleExtra(FoodDetailModelX.fromMap(s)..check=true);
         }
+
+
+
       }
 
 

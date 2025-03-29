@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 
-import 'Pages/home/model/food_detail_model.dart';
 
 const String FoodData ='food_data';
 const String Table_Super_Admin="super_admin";
@@ -10,6 +8,8 @@ const String Table_Categorys="MenuItemCategory";
 const String Table_Food="food";
 const String Table_Food_Detail="menuItemSuplem";
 const String Table_Requests="Requests";
+const String Table_Detail="suplem";
+
 const List<String> items = [
   'Pending',
   'Confirmed',

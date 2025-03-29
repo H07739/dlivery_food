@@ -29,9 +29,9 @@ class ShoppingCartItem extends StatelessWidget {
         backgroundImage: NetworkImage(orderModel.foodModel.image),
       ),
       children: [
-        ValueListenableBuilder<List<FoodDetailModel>>(
+        ValueListenableBuilder<List<FoodDetailModelX>>(
           valueListenable: orderModel.selectedExtras,
-          builder: (BuildContext context, List<FoodDetailModel> value,
+          builder: (BuildContext context, List<FoodDetailModelX> value,
               Widget? child) {
             return Column(
               children: [

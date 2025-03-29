@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
+import 'package:my_project/Pages/home/function/get_food_detail.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/image_food_detail.dart';
+import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
@@ -14,11 +16,10 @@ class ProductDetailPage extends StatelessWidget {
       {super.key,
       required this.product}){
     orderModel = FoodOrderModel(foodModel: product);
-    detailsMe = orderModel.details;
   }
 
 
-  late ValueNotifier<List<FoodDetailModel>> detailsMe;
+  ValueNotifier<List<FoodDetailModelX>> detailsMe = ValueNotifier([]);
 
 
   @override
@@ -43,28 +44,38 @@ class ProductDetailPage extends StatelessWidget {
                 children: [
                   ImageFoodDetail(product: product),
                   FoodDetailInfo(orderModel: orderModel),
-                  ValueListenableBuilder<List<FoodDetailModel>>(
-                    valueListenable: detailsMe,
-                    builder: (context, value, child) {
-                      return Column(
-                        children: value.map((item) => Row(
-                          children: [
-                            Checkbox(
-                              value: item.check,
-                              onChanged: (bool? newValue) {
-                                if (newValue != null) {
-                                  item.check = newValue;
-                                  orderModel.toggleExtra(item);
-                                  detailsMe.value = List.from(value);
-                                }
-                              },
-                            ),
-                            SizedBox(width: 8),
-                            Text(item.name, style: TextStyle(fontSize: 18)),
-                            SizedBox(width: 8),
-                            Text("${item.price} D", style: TextStyle(fontSize: 16)),
-                          ],
-                        )).toList(),
+                  FutureBuilderX<List<FoodDetailModelX>>(
+                    future: ()=>getFoodDetail(),
+                    loadingView: Center(child: CircularProgressIndicator(),),
+                    errorView: (String error, ValueNotifier<int> keyNotifier)=>Text(error),
+                    doneView: (List<FoodDetailModelX> data, ValueNotifier<int> keyNotifier) {
+                      detailsMe.value= data;
+                      return ValueListenableBuilder<List<FoodDetailModelX>>(
+                        valueListenable: detailsMe,
+                        builder: (context, value, child) {
+                          return Column(
+                            children: value.map((item) => Row(
+                              children: [
+                                Checkbox(
+                                  value: item.check,
+                                    onChanged: (bool? newValue) {
+                                      if (newValue != null) {
+                                        item.check = newValue;
+                                        orderModel.toggleExtra(item);
+                                        detailsMe.notifyListeners(); // إعلام المستمعين بالتغيير فقط
+
+                                      }
+                                    },
+
+                                ),
+                                SizedBox(width: 8),
+                                Text(item.name, style: TextStyle(fontSize: 18)),
+                                SizedBox(width: 8),
+                                Text("${item.price} D", style: TextStyle(fontSize: 16)),
+                              ],
+                            )).toList(),
+                          );
+                        },
                       );
                     },
                   ),

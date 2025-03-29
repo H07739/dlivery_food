@@ -5,8 +5,7 @@ import '../../home/model/food_detail_model.dart';
 
 Future<void> addDetail(
     {
-      required List<FoodDetailModel> details,
-      required int count,
+      required List<FoodDetailModelX> details,
       required int idRequests
     }) async {
   try {
@@ -14,10 +13,12 @@ Future<void> addDetail(
       'id_request':idRequests,
 
     };
-    for( FoodDetailModel d in details){
-      data[d.name]=count;
+    for( FoodDetailModelX d in details){
+      data['id_suplem']= d.id;
+      await supabase.from(Table_Food_Detail).insert(data);
     }
-    await supabase.from(Table_Food_Detail).insert(data);
+
+
   } catch (error) {
     print('Error AddDetailDataBase : $error');
     rethrow;

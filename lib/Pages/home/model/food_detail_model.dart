@@ -1,11 +1,25 @@
-import 'package:flutter/material.dart';
-
-class FoodDetailModel {
+class FoodDetailModelX{
+  int id;
   String name;
-  double price;
-  bool check;
+  int price;
+  DateTime createdAt;
+  bool check = false;
 
-  FoodDetailModel({required this.name, required this.price, required this.check});
+  FoodDetailModelX({required this.id, required this.name, required this.price, required this.createdAt});
+  factory FoodDetailModelX.fromMap(Map<String,dynamic> json){
 
+    return FoodDetailModelX(
+      id: json['id'],
+      name: json['name'],
+      price: json['price'],
+      createdAt: DateTime.parse(json['created_at'] as String),
+    );
+  }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'price': price,
+    };
+  }
 }

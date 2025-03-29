@@ -10,6 +10,7 @@ class MealPlanItem extends StatelessWidget {
   Function() onTap;
   @override
   Widget build(BuildContext context) {
+
     return ExpansionTile(
       title: Text(orderModel.orderModel.foodModel.name),
       subtitle: Text(orderModel.status),
@@ -17,9 +18,9 @@ class MealPlanItem extends StatelessWidget {
         backgroundImage: NetworkImage(orderModel.orderModel.foodModel.image),
       ),
       children: [
-        ValueListenableBuilder<List<FoodDetailModel>>(
+        ValueListenableBuilder<List<FoodDetailModelX>>(
           valueListenable: orderModel.orderModel.selectedExtras,
-          builder: (BuildContext context, List<FoodDetailModel> value,
+          builder: (BuildContext context, List<FoodDetailModelX> value,
               Widget? child) {
             return Column(
               children: [
@@ -47,8 +48,24 @@ class MealPlanItem extends StatelessWidget {
           },
         ),
         Text(
-          "price : ${orderModel.orderModel.totalPrice.value}",
+          "food price : ${orderModel.orderModel.foodModel.price}",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Divider(),
+        Text(
+          "Quantity : ${orderModel.foodCount}",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Total price : ${orderModel.price}",
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.red),
+          ),
         ),
         Visibility(
           visible: orderModel.status == 'Pending',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'add_detail_view.dart';
 import 'manger_orders_view.dart';
 
 class MealPlanAdminView extends StatelessWidget {
@@ -15,6 +16,12 @@ class MealPlanAdminView extends StatelessWidget {
           onTap: ()=>Get.to(()=>MangerOrdersView()),
           leading: Icon(Icons.manage_history,color: Colors.blue,),
           title: Text('Orders', style: TextStyle(fontWeight: FontWeight.bold)),
+          trailing: Icon(Icons.arrow_forward),),
+        Divider(),
+        ListTile(
+          onTap: ()=>Get.to(()=>AddDetailView()),
+          leading: Icon(Icons.details,color: Colors.green,),
+          title: Text('Add Detail', style: TextStyle(fontWeight: FontWeight.bold)),
           trailing: Icon(Icons.arrow_forward),),
         Divider(),
       ],),

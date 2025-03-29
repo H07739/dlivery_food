@@ -7,7 +7,7 @@ class FoodOrderModel {
   ValueNotifier<int> count = ValueNotifier(1);
 
 // List of selected additions  
-  ValueNotifier<List<FoodDetailModel>> selectedExtras = ValueNotifier([]);
+  ValueNotifier<List<FoodDetailModelX>> selectedExtras = ValueNotifier([]);
 
 // Total price  
   ValueNotifier<double> totalPrice = ValueNotifier(0.0);
@@ -19,15 +19,8 @@ class FoodOrderModel {
     _updateTotalPrice();
   }
 
-  ValueNotifier<List<FoodDetailModel>> details = ValueNotifier([
-    FoodDetailModel(name: 'Ketchup', price: 6, check: false),
-    FoodDetailModel(name: 'Mayonnaise', price: 8, check: false),
-    FoodDetailModel(name: 'Harissa', price: 4, check: false),
-    FoodDetailModel(name: 'Egg', price: 5, check: false),
-  ]);
 
-// Toggle addition selection  
-  void toggleExtra(FoodDetailModel extra) {
+  void toggleExtra(FoodDetailModelX extra) {
     if (selectedExtras.value.contains(extra)) {
       selectedExtras.value.remove(extra);
     } else {
