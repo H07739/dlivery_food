@@ -3,6 +3,7 @@ import 'package:my_project/Pages/meal_plan/function/get_requests.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../../Pages/meal_plan/model/meal_plan_model.dart';
 import '../../../strings.dart';
+import '../function/get_orders.dart';
 import '../widget/item_select_state_order.dart';
 import '../widget/item_order_manger.dart';
 
@@ -45,7 +46,7 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
             ),
             const Divider(),
             FutureBuilderX<List<MealPlanModel>>(
-              future: () => getRequests(),
+              future: () => getOrders(),
               loadingView: const Center(
                 child: CircularProgressIndicator(),
               ),

@@ -30,6 +30,7 @@ class _AddDetailViewState extends State<AddDetailView> {
         await supabase.from(Table_Detail).insert({
           'name': detailNameController.text,
           'price': detailPriceController.text,
+          'admin':supabase.auth.currentUser!.id
         });
 
 

@@ -13,7 +13,8 @@ import '../widget/icon_shopping.dart';
 class HomeMain extends StatelessWidget {
   HomeMain({super.key});
   ValueNotifier<String?> category = ValueNotifier(null);
-
+  TextEditingController searchController = TextEditingController();
+  bool searcher = false;
   @override
   Widget build(BuildContext context) {
 
@@ -46,6 +47,45 @@ class HomeMain extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search For Food ...',
+                            prefixIcon: Icon(Icons.search, color: Colors.grey),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                            ),
+                          ),
+                          onChanged: (String? data){
+                            if(data != null){
+                              searcher = true;
+                              category.value = data;
+                            }
+                            else{
+                              searcher = false;
+                            }
+
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,6 +125,7 @@ class HomeMain extends StatelessWidget {
                       return Selectedcategory(
                         onSelected: (int i,String index,) {
                           category.value = index;
+                          searcher = false;
                         },
                         categorys: data,
                       );
@@ -104,7 +145,15 @@ class HomeMain extends StatelessWidget {
                     valueListenable: category,
                     builder: (BuildContext context, String? value, Widget? child) {
                       return FutureBuilderX<List<FoodModel>>(
-                        future: () => getFood(category: value),
+                        future: () {
+                          if(searcher){
+                            return getFood(foodName: value);
+                          }
+                          else{
+                            return  getFood(category: value);
+                          }
+
+                        },
                         loadingView: Center(
                           child: CircularProgressIndicator(),
                         ),

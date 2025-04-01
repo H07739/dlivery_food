@@ -45,7 +45,7 @@ class ProductDetailPage extends StatelessWidget {
                   ImageFoodDetail(product: product),
                   FoodDetailInfo(orderModel: orderModel),
                   FutureBuilderX<List<FoodDetailModelX>>(
-                    future: ()=>getFoodDetail(),
+                    future: ()=>getFoodDetail(admin: product.seller),
                     loadingView: Center(child: CircularProgressIndicator(),),
                     errorView: (String error, ValueNotifier<int> keyNotifier)=>Text(error),
                     doneView: (List<FoodDetailModelX> data, ValueNotifier<int> keyNotifier) {
