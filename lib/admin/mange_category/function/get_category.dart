@@ -4,7 +4,7 @@ import 'package:my_project/strings.dart';
 
 Future<List<CategoryAdminModel>> getCategory() async {
   try {
-    List<Map<String,dynamic>> result = await supabase.from(Table_Categorys).select('*').eq('admin', supabase.auth.currentUser!.id);
+    List<Map<String,dynamic>> result = await supabase.from(Table_Categorys).select('*');
     return result.map((data) => CategoryAdminModel.fromJson(data)).toList();
   } catch (e) {
     print('error in get category : $e');

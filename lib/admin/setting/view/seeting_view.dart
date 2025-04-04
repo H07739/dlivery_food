@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_project/admin/setting/view/manger_view.dart';
 import 'package:my_project/main.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
 
@@ -11,15 +12,34 @@ class SeetingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Setting',style: TextStyle(color: Colors.white),),backgroundColor: Colors.deepOrange,),
+      appBar: AppBar(
+        title: Text(
+          'Setting',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.deepOrange,
+      ),
       body: Column(
         children: [
-          Row(children: [
-            Expanded(child: MaterialButtonX(text: Text('Log out'), onPressed: (ValueNotifier<bool> keyNotifier) {
-              supabase.auth.signOut();
-              Get.offAll(()=>AuthView());
-      },))
-          ],)
+          Card(
+            child: ListTile(
+              title: Text('Manger', style: TextStyle(color: Colors.black)),
+              leading: Icon(Icons.manage_accounts_rounded,color: Colors.green,),
+              trailing: IconButton(onPressed: ()=>Get.to(()=>MangerView()), icon: Icon(Icons.arrow_forward_ios)),
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: MaterialButtonX(
+                text: Text('Log out'),
+                onPressed: (ValueNotifier<bool> keyNotifier) {
+                  supabase.auth.signOut();
+                  Get.offAll(() => AuthView());
+                },
+              ))
+            ],
+          )
         ],
       ),
     );
