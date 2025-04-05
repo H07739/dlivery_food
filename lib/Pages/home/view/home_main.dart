@@ -7,6 +7,7 @@ import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../../color.dart';
 import 'package:get/get.dart';
 
+import '../../notification/view/notification_view.dart';
 import '../widget/food_item.dart';
 import '../widget/icon_shopping.dart';
 
@@ -35,7 +36,9 @@ class HomeMain extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.notifications, color: Colors.deepOrange),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(()=>NotificationView());
+            },
           ),
           IconShopping(),
         ],

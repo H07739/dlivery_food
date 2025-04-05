@@ -10,6 +10,7 @@ const String Table_Food_Detail="menuItemSuplem";
 const String Table_Requests="Requests";
 const String Table_Detail="suplem";
 const String Table_Manger="Manger";
+const String Table_Notification="notifications";
 
 const List<String> items = [
   'Pending',

@@ -1,24 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_project/Pages/notification/controller/notification_controller.dart';
+import 'package:my_project/Pages/notification/function/get_notification.dart';
+import 'package:my_project/Pages/notification/model/notification_model.dart';
+import 'package:my_project/widgets/FutureBuilderX.dart';
 
+import '../widget/item_notification.dart';
 class NotificationView extends StatelessWidget {
-  const NotificationView({super.key});
-
+  NotificationView({super.key});
+  NotificationController controller = Get.put(NotificationController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Notification',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white),
         ),
-        elevation: 2,
-        shadowColor: Colors.grey.withOpacity(0.5),
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        leading: IconButton(onPressed: ()=>Get.back(), icon: Icon(Icons.arrow_back_ios)),
+        backgroundColor: Colors.deepOrange,
       ),
-      body: Text('how are you'),
+      body: FutureBuilderX<List<NotificationModel>>(
+        future: () => getNotification(),
+        loadingView: Center(
+          child: CircularProgressIndicator(),
+        ),
+        errorView: (String error, ValueNotifier<int> keyNotifier)=>Text(error), doneView: (List<NotificationModel> data, ValueNotifier<int> keyNotifier) {
+
+          if(data.isEmpty){
+            return Center(child: Text('Not found Notification Now'),);
+          }
+          controller.notifications.value = data;
+          return Obx(() => ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: controller.notifications.length,
+            itemBuilder: (context, index) {
+              final notification = controller.notifications[index];
+              return ItemNotification(model: controller.notifications[index],
+
+              );
+            },
+          ));
+
+      },
+      ),
     );
   }
 }
