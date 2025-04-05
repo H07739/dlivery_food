@@ -13,12 +13,12 @@ class MealPlanAdminView extends StatelessWidget {
     return  Scaffold(
       appBar: AppBar(title: Text('Meal Plan',style: TextStyle(color: Colors.white),),backgroundColor: Colors.deepOrange,),
       body: Column(children: [
-        ListTile(
-          onTap: ()=>Get.to(()=>MangerOrdersView()),
-          leading: Icon(Icons.manage_history,color: Colors.blue,),
-          title: Text('Orders', style: TextStyle(fontWeight: FontWeight.bold)),
-          trailing: Icon(Icons.arrow_forward),),
-        Divider(),
+        // ListTile(
+        //   onTap: ()=>Get.to(()=>MangerOrdersView()),
+        //   leading: Icon(Icons.manage_history,color: Colors.blue,),
+        //   title: Text('Orders', style: TextStyle(fontWeight: FontWeight.bold)),
+        //   trailing: Icon(Icons.arrow_forward),),
+        // Divider(),
         ListTile(
           onTap: ()=>Get.to(()=>AddDetailView()),
           leading: Icon(Icons.details,color: Colors.green,),

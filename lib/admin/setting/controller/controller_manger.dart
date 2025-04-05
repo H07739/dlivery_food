@@ -26,7 +26,7 @@ class MangerController extends GetxController {
         name: newName,
         email: updated.email,
         idUser: updated.idUser,
-        createdAt: updated.createdAt,
+        createdAt: updated.createdAt, id_admin: updated.id_admin,
       );
     }
   }

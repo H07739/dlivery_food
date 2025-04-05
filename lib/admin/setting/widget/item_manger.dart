@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/admin/setting/controller/controller_manger.dart';
 import 'package:my_project/admin/setting/function/delete_manger.dart';
+import 'package:my_project/admin/setting/function/updata_name.dart';
 
 import '../model/manger_model.dart';
 
@@ -19,10 +20,14 @@ class ItemManger extends StatelessWidget {
             labelText: 'Name',
             border: OutlineInputBorder(),
           ),
-          onSubmitted: (newName) {
+          onSubmitted: (String? newName) {
+            if (newName != null && newName.trim().isNotEmpty) {
+              model.name = newName;
+              updateNameManger(context: context, model: model, controller: controller);
+            }
 
-           print('New name for $newName');
-            // مثال: updateMangerName(manager.id, newName);
+
+
           },
         ),
         subtitle: Column(

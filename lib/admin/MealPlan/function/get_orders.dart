@@ -5,12 +5,12 @@ import '../../../Pages/shopping_cart/model/FoodOrderModel.dart';
 import '../../../main.dart';
 import '../../../strings.dart';
 
-Future<List<MealPlanModel>> getOrders()async{
+Future<List<MealPlanModel>> getOrders({required String idAdmin})async{
   try{
 
     List<MealPlanModel> orders =[];
 
-    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('admin', supabase.auth.currentUser!.id).order('id', ascending: false);
+    List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('admin', idAdmin).order('id', ascending: false);
 
     for(var request in requests){
 

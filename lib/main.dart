@@ -3,12 +3,12 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 import 'package:my_project/strings.dart';
-import 'package:my_project/test_view.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
-
+import 'admin/MealPlan/view/manger_orders_view.dart';
 import 'admin/home/view/admin_view.dart';
+import 'admin/setting/model/manger_model.dart';
 
 late SupabaseClient supabase;
 
@@ -57,29 +57,41 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Future<Widget> check() async {
-    final user = supabase.auth.currentUser;
 
-    if (user == null) {
-      return const AuthView();
-    }
+}
+Future<Widget> check() async {
+  final user = supabase.auth.currentUser;
 
-    List<Map<String, dynamic>> admin = await supabase
-        .from(Table_Admins)
-        .select('*')
-        .eq('uuid', supabase.auth.currentUser!.id);
+  if (user == null) {
+    return const AuthView();
+  }
 
-    if (admin.isNotEmpty) {
-      await supabase.auth.updateUser(
-        UserAttributes(
-          data: {
-            "admin": true,
-          },
-        ),
-      );
-      return AdminView();
-    } else {
-      return HomeView();
-    }
+  List<Map<String, dynamic>> admin = await supabase
+      .from(Table_Admins)
+      .select('*')
+      .eq('uuid', supabase.auth.currentUser!.id);
+
+  List<Map<String, dynamic>> manger = await supabase
+      .from(Table_Manger)
+      .select('*')
+      .eq('id_user', supabase.auth.currentUser!.id);
+
+  if (admin.isNotEmpty) {
+    await supabase.auth.updateUser(
+      UserAttributes(
+        data: {
+          "admin": true,
+        },
+      ),
+    );
+    return AdminView();
+  }
+  else if(manger.isNotEmpty){
+
+    return MangerOrdersView(model: MangerModel.fromJson(manger[0]),);
+  }
+
+  else {
+    return HomeView();
   }
 }

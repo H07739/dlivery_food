@@ -23,6 +23,7 @@ class SeetingView extends StatelessWidget {
         children: [
           Card(
             child: ListTile(
+              onTap: ()=>Get.to(()=>MangerView()),
               title: Text('Manger', style: TextStyle(color: Colors.black)),
               leading: Icon(Icons.manage_accounts_rounded,color: Colors.green,),
               trailing: IconButton(onPressed: ()=>Get.to(()=>MangerView()), icon: Icon(Icons.arrow_forward_ios)),

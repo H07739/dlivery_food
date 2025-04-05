@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_project/Pages/meal_plan/function/get_requests.dart';
+import 'package:get/get.dart';
+import 'package:my_project/admin/setting/model/manger_model.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
+import '../../../Pages/auth/auth_view.dart';
 import '../../../Pages/meal_plan/model/meal_plan_model.dart';
 import '../../../strings.dart';
 import '../function/get_orders.dart';
@@ -8,8 +10,8 @@ import '../widget/item_select_state_order.dart';
 import '../widget/item_order_manger.dart';
 
 class MangerOrdersView extends StatefulWidget {
-  const MangerOrdersView({super.key});
-
+  MangerOrdersView({super.key,required this.model});
+  MangerModel model;
   @override
   State<MangerOrdersView> createState() => _MangerOrdersViewState();
 }
@@ -34,7 +36,28 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.deepOrange,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'logout') {
+                Get.offAll(()=>AuthView());
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Text('Logout'),
+                ),
+
+              ];
+            },
+
+          ),
+        ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,7 +69,7 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
             ),
             const Divider(),
             FutureBuilderX<List<MealPlanModel>>(
-              future: () => getOrders(),
+              future: () => getOrders(idAdmin: widget.model.id_admin),
               loadingView: const Center(
                 child: CircularProgressIndicator(),
               ),

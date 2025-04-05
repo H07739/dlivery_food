@@ -1,9 +1,10 @@
 class MangerModel {
   final int id;
-  final String name;
+  String name;
   final String email;
   final String idUser;
   final DateTime createdAt;
+  final String id_admin;
 
   MangerModel({
     required this.id,
@@ -11,6 +12,7 @@ class MangerModel {
     required this.email,
     required this.idUser,
     required this.createdAt,
+    required this.id_admin,
   });
 
   factory MangerModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class MangerModel {
       email: json['email'],
       idUser: json['id_user'],
       createdAt: DateTime.parse(json['created_at'] as String),
+      id_admin: json['id_admin'],
     );
   }
 
