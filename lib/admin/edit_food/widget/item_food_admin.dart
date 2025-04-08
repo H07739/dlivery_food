@@ -1,51 +1,33 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:my_project/Pages/home/model/category_model.dart';
 import 'package:my_project/admin/add_food/function/pickImage.dart';
-import 'package:my_project/admin/add_food/function/uploadImage.dart';
+import 'package:my_project/admin/edit_food/controller/food_controller.dart';
 import 'package:my_project/admin/edit_food/function/update_food.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
 import '../../../widgets/image_view.dart';
-import '../../../widgets/showDialog.dart';
 import '../function/delet_food.dart';
 import '../model/EditFoodModel.dart';
 
-class ItemFoodAdmin extends StatefulWidget {
-  ItemFoodAdmin({super.key, required this.model,required this.onDelete,required this.index});
-  EditFoodModel model;
-  late CategoryModel categoryModel;
-  int index;
-  Function(int index) onDelete;
-  @override
-  State<ItemFoodAdmin> createState() => _ItemFoodAdminState();
-}
 
-class _ItemFoodAdminState extends State<ItemFoodAdmin> {
+class ItemFoodAdmin extends StatelessWidget {
+  ItemFoodAdmin({super.key,required this.model,required this.controller});
+  EditFoodModel model;
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   ValueNotifier<bool> imageSelect = ValueNotifier(false);
   File? imageFile;
-
-  @override
-  void initState() {
-    super.initState();
-    nameController.text = widget.model.foodAdminModel.name;
-    priceController.text = widget.model.foodAdminModel.price;
-    descriptionController.text = widget.model.foodAdminModel.description;
-    for (CategoryModel categor in widget.model.categoryModel) {
-      if (categor.id == widget.model.foodAdminModel.idCategory) {
-        widget.categoryModel = categor;
-        break;
-      }
-    }
-  }
+  FoodController controller;
 
   @override
   Widget build(BuildContext context) {
+        nameController.text = model.foodAdminModel.name;
+    priceController.text = model.foodAdminModel.price;
+    descriptionController.text = model.foodAdminModel.description;
+
     return Container(
+
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -71,19 +53,19 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                       },
                       child: ClipRRect(
                         borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(16)),
+                        BorderRadius.vertical(top: Radius.circular(16)),
                         child: value
                             ? Image.file(
-                                imageFile!,
-                                width: double.infinity,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              )
+                          imageFile!,
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        )
                             : ImageView(
-                                url: widget.model.foodAdminModel.image,
-                                width: double.infinity,
-                                height: 150,
-                              ),
+                          url:model.foodAdminModel.image,
+                          width: double.infinity,
+                          height: 150,
+                        ),
                       ),
                     );
                   },
@@ -94,8 +76,9 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                   decoration: InputDecoration(helperText: 'Name food'),
                   onChanged: (String? data) {
                     if (data != null) {
-                      widget.model.foodAdminModel.name = data;
-                      setState(() {});
+                      model.foodAdminModel.name = data;
+                      controller.updateFood(model.foodAdminModel.id, model);
+
                     }
                   },
                 ),
@@ -110,19 +93,18 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     DropdownButton<CategoryModel>(
-                      value: widget.categoryModel,
-                      items: List.generate(widget.model.categoryModel.length,
-                          (int index) {
-                        return DropdownMenuItem(
-                            value: widget.model.categoryModel[index],
-                            child:
-                                Text(widget.model.categoryModel[index].name));
-                      }),
+                      value:model.category ?? model.categoryModel[0],
+                      items: List.generate(model.categoryModel.length,
+                              (int index) {
+                            return DropdownMenuItem(
+                                value:model.categoryModel[index],
+                                child: Text(model.categoryModel[index].name));
+                          }),
                       onChanged: (CategoryModel? value) {
                         if (value != null) {
-                          widget.model.foodAdminModel.idCategory = value.id;
-                          widget.categoryModel = value;
-                          setState(() {});
+                          model.foodAdminModel.idCategory = value.id;
+                          model.category = value;
+                          controller.updateFood(model.foodAdminModel.id, model);
                         }
                       },
                     ),
@@ -141,8 +123,8 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                     decoration: InputDecoration(helperText: 'Price food'),
                     onChanged: (String? data) {
                       if (data != null) {
-                        widget.model.foodAdminModel.price = data;
-                        setState(() {});
+                        model.foodAdminModel.price = data;
+                        controller.updateFood(model.foodAdminModel.id, model);
                       }
                     }),
                 TextField(
@@ -154,8 +136,8 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                     ),
                     onChanged: (String? data) {
                       if (data != null) {
-                        widget.model.foodAdminModel.description = data;
-                        setState(() {});
+                        model.foodAdminModel.description = data;
+                        controller.updateFood(model.foodAdminModel.id, model);
                       }
                     }),
                 SizedBox(
@@ -185,12 +167,12 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
 
                             keyNotifier.value = true;
                             String? url = await updateFood(
-                                model: widget.model.foodAdminModel,
+                                model:model.foodAdminModel,
                                 context: context,
                                 imageFile: imageFile);
 
                             if(url != null){
-                              widget.model.foodAdminModel.image = url;
+                              model.foodAdminModel.image = url;
                               imageFile=null;
                               imageSelect.value=false;
                             }
@@ -211,26 +193,20 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: (ValueNotifier<bool> keyNotifier) async{
-                        showDeleteDialog(context: context, onPressed: () async{
-                          try {
-                            keyNotifier.value = true;
+                        try {
+                          keyNotifier.value = true;
 
-                            await deleteFood(idFood:widget.model.foodAdminModel.id, context: context);
+                          await confirmDeleteFood(idFood:model.foodAdminModel.id, context: context, controller: controller);
 
-                            keyNotifier.value = false;
-                            widget.onDelete(widget.index);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Deleted Food'))
-                            );
+                          keyNotifier.value = false;
+                         
 
 
-                          } catch (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('$error'))
-                            );
-                          }
-
-                        }, title: 'Delete Food', name: 'Food');
+                        } catch (error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('$error'))
+                          );
+                        }
                       },
                     )
                   ],
@@ -245,5 +221,4 @@ class _ItemFoodAdminState extends State<ItemFoodAdmin> {
       ),
     );
   }
-
 }

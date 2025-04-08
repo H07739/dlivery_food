@@ -57,6 +57,9 @@ class FoodItem extends StatelessWidget {
                 ),
                 Row(
                   children: [
+                    ElevatedButton(onPressed: (){
+                      Get.to(ProductDetailPage(product: model,));
+                    }, child: Text('View')),
                     Spacer(),
                     FavoriteItem(like: model.is_favorite, onPressed: (bool like) async{
                       if(!like){

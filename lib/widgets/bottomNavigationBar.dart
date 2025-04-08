@@ -119,7 +119,7 @@ class _BottomnavigationbarAdminState extends State<BottomnavigationbarAdmin> {
           icon: Icon(
             selectedIndex == 2 ? Iconsax.calendar5 : Iconsax.calendar,
           ),
-          label: "Meal Plan",
+          label: "Options",
         ),
         BottomNavigationBarItem(
           icon: Icon(

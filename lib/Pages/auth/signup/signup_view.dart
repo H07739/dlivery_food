@@ -19,55 +19,57 @@ class SignupView extends StatelessWidget {
     return  Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              width: double.infinity,
-            ),
-            const SizedBox(
-              width: double.infinity,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Icon(
-              Icons.lock,
-              size: 50,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'Signup Now To Delivery App ',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldEdit(hintTextField: 'Enter your Email', textEditingController: controllerEmail, hintText: 'Email',textInputType: TextInputType.emailAddress,),
-            TextFieldEdit(hintTextField: 'Enter your Password', textEditingController: controllerPassword, hintText: 'Password',),
-            const SizedBox(height: 10,),
-            Row(children:[ Expanded(child: MaterialButtonX(onPressed: (ValueNotifier<bool> keyNotifier) async{
-              try{
-                if(controllerEmail.text.isEmpty || controllerPassword.text.isEmpty)return;
-                keyNotifier.value=true;
-                AuthResponse a= await supabase.auth.signUp(email:controllerEmail.text,password: controllerPassword.text);
-
-                keyNotifier.value=false;
-                Get.off(()=>HomeView());
-              }
-              on AuthException catch(e){
-                keyNotifier.value=false;
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
-              }
-              catch(e){
-                keyNotifier.value=false;
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error : $e")));
-              }
-            }, text: const Text('Signup',style: TextStyle(color: Colors.white),),))])
-
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: double.infinity,
+              ),
+              const SizedBox(
+                width: double.infinity,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const Icon(
+                Icons.lock,
+                size: 50,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                'Signup Now To Delivery App ',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldEdit(hintTextField: 'Enter your Email', textEditingController: controllerEmail, hintText: 'Email',textInputType: TextInputType.emailAddress,),
+              TextFieldEdit(hintTextField: 'Enter your Password', textEditingController: controllerPassword, hintText: 'Password',),
+              const SizedBox(height: 10,),
+              Row(children:[ Expanded(child: MaterialButtonX(onPressed: (ValueNotifier<bool> keyNotifier) async{
+                try{
+                  if(controllerEmail.text.isEmpty || controllerPassword.text.isEmpty)return;
+                  keyNotifier.value=true;
+                  AuthResponse a= await supabase.auth.signUp(email:controllerEmail.text,password: controllerPassword.text);
+          
+                  keyNotifier.value=false;
+                  Get.off(()=>HomeView());
+                }
+                on AuthException catch(e){
+                  keyNotifier.value=false;
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+                }
+                catch(e){
+                  keyNotifier.value=false;
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error : $e")));
+                }
+              }, text: const Text('Signup',style: TextStyle(color: Colors.white),),))])
+          
+            ],
+          ),
         ),
       ),
     );

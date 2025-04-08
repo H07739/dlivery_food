@@ -22,9 +22,7 @@ class ShoppingCartItem extends StatelessWidget {
 
     return ExpansionTile(
       title: Text(orderModel.foodModel.name),
-      subtitle: ValueListenableBuilder<double>(valueListenable: orderModel.totalPrice,
-      builder: (BuildContext context, double value, Widget? child) { return Text('$value\$'); },
-       ),
+
       leading: CircleAvatar(
         backgroundImage: NetworkImage(orderModel.foodModel.image),
       ),
@@ -64,40 +62,51 @@ class ShoppingCartItem extends StatelessWidget {
           },
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {
-                if (orderModel.count.value > 1) {
-
-
-                  OrderManager.updateOrderCount(index, orderModel.count.value - 1);
-                } else {
-                  OrderManager.removeOrder(index);
-                }
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ValueListenableBuilder<double>(valueListenable: orderModel.totalPrice,
+                builder: (BuildContext context, double value, Widget? child) { return Text('Total price : $value D',style: TextStyle(fontSize: 18),); },
+              ),
             ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    if (orderModel.count.value > 1) {
 
 
-            ValueListenableBuilder<int>(
-              valueListenable: orderModel.count,
-              builder: (BuildContext context, int value, Widget? child) {
-                return Text(
-                  "$value",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                );
-              },
+                      OrderManager.updateOrderCount(index, orderModel.count.value - 1);
+                    } else {
+                      OrderManager.removeOrder(index);
+                    }
+                  },
+                ),
+
+
+                ValueListenableBuilder<int>(
+                  valueListenable: orderModel.count,
+                  builder: (BuildContext context, int value, Widget? child) {
+                    return Text(
+                      "$value",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    );
+                  },
+                ),
+
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+
+                    OrderManager.updateOrderCount(index, orderModel.count.value + 1);
+                  },
+                ),
+
+              ],
             ),
-
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-
-                OrderManager.updateOrderCount(index, orderModel.count.value + 1);
-              },
-            ),
-
           ],
         ),
       ],

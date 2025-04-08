@@ -11,9 +11,9 @@ Future<List<EditFoodModel>> getFoodsAdmin()async{
     List<EditFoodModel> list =  [];
     List<Map<String,dynamic>> result = await supabase.from(Table_Food).select('*').eq('admin', supabase.auth.currentUser!.id);
     List<CategoryModel> categories = await getCategory();
-    result.forEach((Map<String, dynamic> data) {
+    for (var data in result) {
       list.add(EditFoodModel(foodAdminModel: FoodAdminModel.fromJson(json: data), categoryModel: categories));
-    });
+    }
     return list;
   }
       catch(er){

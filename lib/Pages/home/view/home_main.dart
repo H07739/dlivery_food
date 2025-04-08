@@ -101,19 +101,7 @@ class HomeMain extends StatelessWidget {
                           color: Colors.deepOrange,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
 
-                        },
-                        child: Text(
-                          "View All",
-                          style: TextStyle(
-                            color: Colors.deepOrange,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   SizedBox(height: 10),

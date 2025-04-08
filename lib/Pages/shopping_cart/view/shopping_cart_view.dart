@@ -55,7 +55,7 @@ class ShoppingCartView extends StatelessWidget {
                             valueListenable: OrderManager.totalPrice,
                             builder: (BuildContext context, double value, Widget? child) {
                               return Text(
-                              'Total : \$ $value',
+                              'Total : $value D',
                               style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.bold),
                               );
