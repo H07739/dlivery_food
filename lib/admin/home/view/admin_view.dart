@@ -17,7 +17,7 @@ class _AdminViewState extends State<AdminView> {
   List<Widget> pages=[
     MangerFoodView(),
     MangeCategoryView(),
-    MealPlanAdminView(),
+    //MealPlanAdminView(),
     SeetingView(),
   ];
   int index=0;

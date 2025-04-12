@@ -45,7 +45,7 @@ class ProductDetailPage extends StatelessWidget {
                   ImageFoodDetail(product: product),
                   FoodDetailInfo(orderModel: orderModel),
                   FutureBuilderX<List<FoodDetailModelX>>(
-                    future: ()=>getFoodDetail(admin: product.seller),
+                    future: ()=>getFoodDetail(idFood: product.id),
                     loadingView: Center(child: CircularProgressIndicator(),),
                     errorView: (String error, ValueNotifier<int> keyNotifier)=>Text(error),
                     doneView: (List<FoodDetailModelX> data, ValueNotifier<int> keyNotifier) {
@@ -62,8 +62,7 @@ class ProductDetailPage extends StatelessWidget {
                                       if (newValue != null) {
                                         item.check = newValue;
                                         orderModel.toggleExtra(item);
-                                        detailsMe.notifyListeners(); // إعلام المستمعين بالتغيير فقط
-
+                                        detailsMe.notifyListeners();
                                       }
                                     },
 

@@ -115,15 +115,15 @@ class _BottomnavigationbarAdminState extends State<BottomnavigationbarAdmin> {
           ),
           label: "Category",
         ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(
+        //     selectedIndex == 2 ? Iconsax.calendar5 : Iconsax.calendar,
+        //   ),
+        //   label: "Options",
+        // ),
         BottomNavigationBarItem(
           icon: Icon(
-            selectedIndex == 2 ? Iconsax.calendar5 : Iconsax.calendar,
-          ),
-          label: "Options",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            selectedIndex == 3 ? Iconsax.setting_21 : Iconsax.setting_2,
+            selectedIndex == 2 ? Iconsax.setting_21 : Iconsax.setting_2,
           ),
           label: "Setting",
         ),

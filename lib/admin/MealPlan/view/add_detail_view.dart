@@ -4,7 +4,8 @@ import 'package:my_project/widgets/MaterialButtonX.dart';
 import '../../../strings.dart';
 
 class AddDetailView extends StatefulWidget {
-  AddDetailView({super.key});
+  AddDetailView({super.key,required this.idFood});
+  int idFood;
 
   @override
   _AddDetailViewState createState() => _AddDetailViewState();
@@ -30,7 +31,8 @@ class _AddDetailViewState extends State<AddDetailView> {
         await supabase.from(Table_Detail).insert({
           'name': detailNameController.text,
           'price': detailPriceController.text,
-          'admin':supabase.auth.currentUser!.id
+          'admin':supabase.auth.currentUser!.id,
+          'id_food':widget.idFood
         });
 
 

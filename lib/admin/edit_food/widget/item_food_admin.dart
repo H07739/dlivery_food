@@ -1,17 +1,19 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_project/Pages/home/model/category_model.dart';
+import 'package:my_project/admin/MealPlan/view/my_detail_view.dart';
 import 'package:my_project/admin/add_food/function/pickImage.dart';
 import 'package:my_project/admin/edit_food/controller/food_controller.dart';
 import 'package:my_project/admin/edit_food/function/update_food.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
 import '../../../widgets/image_view.dart';
+import '../../MealPlan/view/add_detail_view.dart';
 import '../function/delet_food.dart';
 import '../model/EditFoodModel.dart';
 
-
 class ItemFoodAdmin extends StatelessWidget {
-  ItemFoodAdmin({super.key,required this.model,required this.controller});
+  ItemFoodAdmin({super.key, required this.model, required this.controller});
   EditFoodModel model;
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
@@ -22,12 +24,11 @@ class ItemFoodAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        nameController.text = model.foodAdminModel.name;
+    nameController.text = model.foodAdminModel.name;
     priceController.text = model.foodAdminModel.price;
     descriptionController.text = model.foodAdminModel.description;
 
     return Container(
-
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -53,19 +54,19 @@ class ItemFoodAdmin extends StatelessWidget {
                       },
                       child: ClipRRect(
                         borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
+                            BorderRadius.vertical(top: Radius.circular(16)),
                         child: value
                             ? Image.file(
-                          imageFile!,
-                          width: double.infinity,
-                          height: 150,
-                          fit: BoxFit.cover,
-                        )
+                                imageFile!,
+                                width: double.infinity,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              )
                             : ImageView(
-                          url:model.foodAdminModel.image,
-                          width: double.infinity,
-                          height: 150,
-                        ),
+                                url: model.foodAdminModel.image,
+                                width: double.infinity,
+                                height: 150,
+                              ),
                       ),
                     );
                   },
@@ -78,7 +79,6 @@ class ItemFoodAdmin extends StatelessWidget {
                     if (data != null) {
                       model.foodAdminModel.name = data;
                       controller.updateFood(model.foodAdminModel.id, model);
-
                     }
                   },
                 ),
@@ -93,13 +93,13 @@ class ItemFoodAdmin extends StatelessWidget {
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     DropdownButton<CategoryModel>(
-                      value:model.category ?? model.categoryModel[0],
+                      value: model.category ?? model.categoryModel[0],
                       items: List.generate(model.categoryModel.length,
-                              (int index) {
-                            return DropdownMenuItem(
-                                value:model.categoryModel[index],
-                                child: Text(model.categoryModel[index].name));
-                          }),
+                          (int index) {
+                        return DropdownMenuItem(
+                            value: model.categoryModel[index],
+                            child: Text(model.categoryModel[index].name));
+                      }),
                       onChanged: (CategoryModel? value) {
                         if (value != null) {
                           model.foodAdminModel.idCategory = value.id;
@@ -147,14 +147,39 @@ class ItemFoodAdmin extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     MaterialButtonX(
+                      text: Text(
+                        'Add Deteail',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: (ValueNotifier<bool> keyNotifier) =>
+                          Get.to(AddDetailView(
+                        idFood: model.foodAdminModel.id,
+                      )),
+                      color: Colors.blue,
+                    ),
+                    MaterialButtonX(
+                      text: Text(
+                        'My Deteail',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: (ValueNotifier<bool> keyNotifier) =>
+                          Get.to(MyDetailView(
+                            idFood: model.foodAdminModel.id,
+                          )),
+                      color: Colors.green,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    MaterialButtonX(
                         text: Text(
                           'Update Food',
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: (ValueNotifier<bool> keyNotifier) async {
-
                           try {
-
                             if (nameController.text.isEmpty) {
                               throw 'place input name';
                             }
@@ -167,53 +192,47 @@ class ItemFoodAdmin extends StatelessWidget {
 
                             keyNotifier.value = true;
                             String? url = await updateFood(
-                                model:model.foodAdminModel,
+                                model: model.foodAdminModel,
                                 context: context,
                                 imageFile: imageFile);
 
-                            if(url != null){
+                            if (url != null) {
                               model.foodAdminModel.image = url;
-                              imageFile=null;
-                              imageSelect.value=false;
+                              imageFile = null;
+                              imageSelect.value = false;
                             }
 
                             keyNotifier.value = false;
                           } catch (error) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text('$error')));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('$error')));
                             keyNotifier.value = false;
                           }
-                        }
-
-                    ),
+                        }),
                     MaterialButtonX(
                       color: Colors.red,
                       text: Text(
                         'Deleted Food',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: (ValueNotifier<bool> keyNotifier) async{
+                      onPressed: (ValueNotifier<bool> keyNotifier) async {
                         try {
                           keyNotifier.value = true;
 
-                          await confirmDeleteFood(idFood:model.foodAdminModel.id, context: context, controller: controller);
+                          await confirmDeleteFood(
+                              idFood: model.foodAdminModel.id,
+                              context: context,
+                              controller: controller);
 
                           keyNotifier.value = false;
-                         
-
-
                         } catch (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('$error'))
-                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text('$error')));
                         }
                       },
                     )
                   ],
                 ),
-
-
-
               ],
             ),
           ),

@@ -6,8 +6,8 @@ import 'package:my_project/strings.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 
 class MyDetailView extends StatelessWidget {
-  MyDetailView({super.key});
-
+  MyDetailView({super.key,required this.idFood});
+  int idFood;
   ValueNotifier<int> fetchTrigger = ValueNotifier(0);
 
   @override
@@ -30,7 +30,7 @@ class MyDetailView extends StatelessWidget {
               List<Map<String, dynamic>> details = await supabase
                   .from(Table_Detail)
                   .select('*')
-                  .eq('admin', supabase.auth.currentUser!.id)
+                  .eq('id_food', idFood)
                   .order('id', ascending: false);
               return details.map((detail) => DetailModel.fromJson(detail)).toList();
             },
