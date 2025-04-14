@@ -7,6 +7,8 @@ import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../../color.dart';
 import 'package:get/get.dart';
 
+import '../../../main.dart';
+import '../../../widgets/showLoginRequiredDialog.dart';
 import '../../notification/view/notification_view.dart';
 import '../widget/food_item.dart';
 import '../widget/icon_shopping.dart';
@@ -37,6 +39,10 @@ class HomeMain extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.notifications, color: Colors.deepOrange),
             onPressed: () {
+              if(supabase.auth.currentUser == null){
+                showLoginRequiredDialog(context);
+                return;
+              }
               Get.to(()=>NotificationView());
             },
           ),

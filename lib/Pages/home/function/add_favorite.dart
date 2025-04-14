@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:my_project/main.dart';
 
 import '../../../strings.dart';
+import '../../../widgets/showLoginRequiredDialog.dart';
 import '../model/food_model.dart';
 
 Future<void> addFavorite(
     {required FoodModel model, required BuildContext context}) async {
   try {
+
+
+
     await supabase.from(Table_Favorites).upsert(
       {
         'food_id': model.id,
@@ -14,8 +18,7 @@ Future<void> addFavorite(
       },
       onConflict: 'id_user, food_id',
     );
-    model.is_favorite = true;
-    model.addFood(model);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Added to favourites successfully!')),
     );
@@ -30,6 +33,7 @@ Future<void> addFavorite(
 Future<void> removeFavorite(
     {required FoodModel model, required BuildContext context}) async {
   try {
+
     final response = await supabase
         .from('Favorites')
         .delete()
@@ -37,7 +41,6 @@ Future<void> removeFavorite(
         .eq('id_user', supabase.auth.currentUser!.id);
     model.is_favorite = false;
 
-    model.removeFood(model.id);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Removed from favourites successfully!')),
     );

@@ -3,6 +3,7 @@ import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/widgets/favorite_item.dart';
 
 import '../../shopping_cart/model/FoodOrderModel.dart';
+import '../function/add_favorite.dart';
 
 
 class FoodDetailInfo extends StatelessWidget {
@@ -28,12 +29,12 @@ class FoodDetailInfo extends StatelessWidget {
               children: [
                 FavoriteItem(
                   like: orderModel.foodModel.is_favorite,
-                  onPressed: (bool state) {
-                    orderModel.foodModel.is_favorite = state;
+                  onPressed: (bool state) async{
+                     orderModel.foodModel.is_favorite = state;
                     if (state) {
-                      orderModel.foodModel.addFood(orderModel.foodModel);
+                      addFavorite(model: orderModel.foodModel,context: context);
                     } else {
-                      orderModel.foodModel.removeFood(orderModel.foodModel.id);
+                      removeFavorite(model: orderModel.foodModel,context: context);
                     }
                   },
                 ),

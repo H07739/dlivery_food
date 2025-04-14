@@ -4,6 +4,8 @@ import 'package:my_project/Pages/home/function/get_food_detail.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/image_food_detail.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
+import '../../../main.dart';
+import '../../../widgets/showLoginRequiredDialog.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
@@ -92,6 +94,10 @@ class ProductDetailPage extends StatelessWidget {
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    if(supabase.auth.currentUser == null){
+                      showLoginRequiredDialog(context);
+                      return;
+                    }
                     OrderManager.addOrder(orderModel);
                   },
                   style: ElevatedButton.styleFrom(

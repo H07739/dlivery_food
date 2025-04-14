@@ -45,7 +45,7 @@ class _ProfileViewState extends State<ProfileView> {
         leading: IconButton(
             onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: SingleChildScrollView(
+      body: supabase.auth.currentUser != null ?SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -205,14 +205,34 @@ class _ProfileViewState extends State<ProfileView> {
             ],
           ),
         ),
-      ),
+      ):Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 60, color: Colors.grey),
+            SizedBox(height: 16),
+            Text(
+              'You need to log in first',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(AuthView());
+              },
+              child: Text('Login'),
+            ),
+          ],
+        ),
+      )
+      ,
     );
   }
 
   @override
   void initState() {
     super.initState();
-
+    if(supabase.auth.currentUser == null)return;
     String? name = supabase.auth.currentUser!.userMetadata!['name'];
     String? email = supabase.auth.currentUser!.userMetadata!['email'];
     String? address = supabase.auth.currentUser!.userMetadata!['address'];

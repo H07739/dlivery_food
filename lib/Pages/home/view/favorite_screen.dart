@@ -14,15 +14,7 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<Map<String, dynamic>> favoriteItem = [
-    {
-      'image':
-          'https://www.piclumen.com/wp-content/uploads/2024/10/piclumen-upscale-after.webp',
-      'name': 'image test',
-      'cal': 'test test test',
-      'time': '10:pm',
-    },
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +30,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
       ),
       body: FutureBuilderX<List<FoodModel>>(
-        future: () => getFoodFavoriteLocal(),
+        future: () => getFavoriteFoods(),
         loadingView: const Center(
           child: CircularProgressIndicator(),
         ),

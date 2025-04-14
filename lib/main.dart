@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 import 'package:my_project/strings.dart';
+import 'package:my_project/test_view.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //home: AdminView(),
+     // home: TestView(),
       home: FutureBuilderX<Widget>(
         future: () => check(),
         loadingView: Material(
@@ -63,7 +64,8 @@ Future<Widget> check() async {
   final user = supabase.auth.currentUser;
 
   if (user == null) {
-    return const AuthView();
+   // return AuthView();
+    return HomeView();
   }
 
   List<Map<String, dynamic>> admin = await supabase
