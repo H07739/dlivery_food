@@ -33,7 +33,6 @@ class FoodModel {
       category: json['categorys'],
       seller: json['admin'],
 
-
     );
   }
 

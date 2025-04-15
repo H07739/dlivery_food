@@ -10,11 +10,13 @@ Future<List<MealPlanModel>> getOrders({required String idAdmin})async{
 
     List<MealPlanModel> orders =[];
 
+
     List<Map<String,dynamic>> requests = await supabase.from(Table_Requests).select().eq('admin', idAdmin).order('id', ascending: false);
 
     for(var request in requests){
 
-      List<Map<String,dynamic>> foods =await supabase.rpc('get_food_by_id_and_check_favorites',params:{'p_food_id':request['food_id']});
+      List<Map<String,dynamic>> foods = await supabase.from(Table_Food).select('*').eq('id', request['food_id']);
+
       FoodModel food = FoodModel.fromJson(foods[0]);
       FoodOrderModel foodOrderModel = FoodOrderModel(foodModel: food);
       List<Map<String,dynamic>> details = await supabase.from(Table_Food_Detail).select().eq('id_request',request['id']);
@@ -31,6 +33,7 @@ Future<List<MealPlanModel>> getOrders({required String idAdmin})async{
 
 
       orders.add(MealPlanModel(json: request, orderModel: foodOrderModel));
+
 
     }
 

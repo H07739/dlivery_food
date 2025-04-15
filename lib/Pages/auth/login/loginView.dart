@@ -56,7 +56,7 @@ class Loginview extends StatelessWidget {
 
 
                   Widget nextView = await check();
-                  Get.off(() => nextView);
+                  Get.offAll(() => nextView);
 
 
 

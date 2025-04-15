@@ -15,7 +15,7 @@ class MangerFoodView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Manger Food',
+            'Admin',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.deepOrange,
