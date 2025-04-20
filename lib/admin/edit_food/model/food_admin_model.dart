@@ -8,6 +8,7 @@ class FoodAdminModel {
   DateTime createdAt;
   String admin;
   int idCategory;
+  int? rival;
 
   FoodAdminModel(
       {required this.id,
@@ -18,7 +19,8 @@ class FoodAdminModel {
       required this.description,
       required this.image,
       required this.createdAt,
-      required this.idCategory});
+      required this.idCategory,
+      required this.rival});
 
   factory FoodAdminModel.fromJson({required Map<String, dynamic> json}) {
     return FoodAdminModel(
@@ -30,7 +32,7 @@ class FoodAdminModel {
         description: json['description'],
         image: json['image'],
         createdAt: DateTime.parse(json['created_at'] as String),
-        idCategory: json['id_category']);
+        idCategory: json['id_category'], rival: json['rival']);
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +43,7 @@ class FoodAdminModel {
       'description': description,
       'image': image,
       'id_category': idCategory,
+      'rival':rival
     };
   }
 }

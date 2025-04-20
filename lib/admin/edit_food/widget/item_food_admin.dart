@@ -18,6 +18,8 @@ class ItemFoodAdmin extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController rivalController = TextEditingController();
+
   ValueNotifier<bool> imageSelect = ValueNotifier(false);
   File? imageFile;
   FoodController controller;
@@ -27,6 +29,10 @@ class ItemFoodAdmin extends StatelessWidget {
     nameController.text = model.foodAdminModel.name;
     priceController.text = model.foodAdminModel.price;
     descriptionController.text = model.foodAdminModel.description;
+    if(model.foodAdminModel.rival != null){
+      rivalController.text = model.foodAdminModel.rival.toString();
+    }
+
 
     return Container(
       width: double.infinity,
@@ -140,6 +146,27 @@ class ItemFoodAdmin extends StatelessWidget {
                         controller.updateFood(model.foodAdminModel.id, model);
                       }
                     }),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                    controller: rivalController,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold),
+                    decoration: InputDecoration(helperText: 'rival'),
+                    onChanged: (String? data) {
+                      if (data != null) {
+                        final value = int.tryParse(data);
+                        if (value != null) {
+                          model.foodAdminModel.rival = value;
+                          controller.updateFood(model.foodAdminModel.id, model);
+                        }
+                      }
+                    }
+                ),
                 SizedBox(
                   height: 10,
                 ),
