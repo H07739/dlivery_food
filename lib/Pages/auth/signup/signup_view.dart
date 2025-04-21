@@ -40,7 +40,7 @@ class SignupView extends StatelessWidget {
                 height: 10,
               ),
               const Text(
-                'Signup Now To Delivery App ',
+                'Signup ',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               const SizedBox(

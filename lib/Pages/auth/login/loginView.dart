@@ -37,7 +37,7 @@ class Loginview extends StatelessWidget {
                 height: 10,
               ),
               const Text(
-                'Login Now To  Company ',
+                'Login',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               const SizedBox(

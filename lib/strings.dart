@@ -15,11 +15,8 @@ const String Table_Notification="notifications";
 const List<String> items = [
   'Pending',
   'Confirmed',
-  'Out for Delivery',
   'Delivered',
   'Cancelled by Customer',
-  'Cancelled by Restaurant',
-  'Failed Delivery',
-  'Refunded'
+
 ];
 

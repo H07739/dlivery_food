@@ -12,6 +12,7 @@ import '../../../widgets/showLoginRequiredDialog.dart';
 import '../../notification/view/notification_view.dart';
 import '../widget/food_item.dart';
 import '../widget/icon_shopping.dart';
+import 'FormuleGroupPage.dart';
 
 class HomeMain extends StatelessWidget {
   HomeMain({super.key});
@@ -95,6 +96,7 @@ class HomeMain extends StatelessWidget {
                     ],
                   ),
 
+                  SizedBox(height: 10,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,9 +109,20 @@ class HomeMain extends StatelessWidget {
                           color: Colors.deepOrange,
                         ),
                       ),
+                      GestureDetector(
+                        onTap:()=>Get.to(()=>FormuleGroupPage()),
+                        child: Text(
+                          "formule group",
+                          style: TextStyle(
+                            fontSize: 18,
+
+                          ),
+                        ),
+                      ),
 
                     ],
                   ),
+
                   SizedBox(height: 10),
                   FutureBuilderX(
                     future: () => getCategory(),

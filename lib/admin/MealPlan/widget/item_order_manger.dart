@@ -23,11 +23,7 @@ class ItemOrderManger extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(orderModel.orderModel.foodModel.image),
       ),
-      trailing: IconButton(onPressed: ()async{
-        await deleteOrder(model: orderModel, context: context);
-        onTapDelete(orderModel);
 
-      }, icon: Icon(Icons.delete,color: Colors.red,)),
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -90,12 +86,22 @@ class ItemOrderManger extends StatelessWidget {
               ),
               Divider(),
               Text(
-                "delivery : ${orderModel.delivery}",
+                "Method : ${orderModel.delivery}",
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
               Divider(),
+              Text(
+                "Time : ${orderModel.createdAt.year}-${orderModel.createdAt.month.toString().padLeft(2, '0')}-${orderModel.createdAt.day.toString().padLeft(2, '0')} "
+                    "${orderModel.createdAt.hour.toString().padLeft(2, '0')}:${orderModel.createdAt.minute.toString().padLeft(2, '0')}",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+
+              Divider(),
+
               Text(
                 "Total price : ${orderModel.orderModel.totalPrice.value}",
                 style: TextStyle(
