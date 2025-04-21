@@ -10,6 +10,9 @@ class MealPlanModel {
   String price;
   String status;
   String admin;
+  String address;
+  String namePerson;
+  String delivery;
 
   MealPlanModel({
     required Map<String, dynamic> json,
@@ -21,6 +24,9 @@ class MealPlanModel {
         idUser = json['id_user'],
         price = json['price'],
         status = json['statuse'],
+  address = json['address'],
+  namePerson = json['name'],
+  delivery = json['delivery'],
         admin = json['admin'];
 
   // تحويل من كائن MealPlanModel إلى JSON

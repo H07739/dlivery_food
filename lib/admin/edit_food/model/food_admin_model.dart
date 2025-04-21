@@ -10,6 +10,7 @@ class FoodAdminModel {
   int idCategory;
   int? rival;
 
+
   FoodAdminModel(
       {required this.id,
       required this.name,
@@ -32,7 +33,7 @@ class FoodAdminModel {
         description: json['description'],
         image: json['image'],
         createdAt: DateTime.parse(json['created_at'] as String),
-        idCategory: json['id_category'], rival: json['rival']);
+        idCategory: json['id_category'], rival: json['rival'],);
   }
 
   Map<String, dynamic> toJson() {

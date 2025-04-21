@@ -75,6 +75,26 @@ class ItemOrderManger extends StatelessWidget {
                   );
                 },
               ),
+              Text(
+                "address : ${orderModel.address}",
+                style: TextStyle(
+                    fontSize: 16,
+                    ),
+              ),
+              Divider(),
+              Text(
+                "name : ${orderModel.namePerson}",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              Divider(),
+              Text(
+                "delivery : ${orderModel.delivery}",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               Divider(),
               Text(
                 "Total price : ${orderModel.orderModel.totalPrice.value}",

@@ -9,6 +9,8 @@ import '../model/FoodOrderModel.dart';
 Future<void> addRequest(
     {required FoodOrderModel order,
       required BuildContext context,
+      required String delivery
+
     }) async {
   try {
     String? address = supabase.auth.currentUser!.userMetadata!['address'];
@@ -22,7 +24,9 @@ Future<void> addRequest(
       'id_user': supabase.auth.currentUser!.id,
       'price':order.totalPrice.value.toString(),
       'admin':order.foodModel.seller,
-      'address':address
+      'address':address,
+      'name':supabase.auth.currentUser!.userMetadata!['name'],
+      'delivery':delivery
     }).select();
 
     await addDetail(details: order.selectedExtras.value, idRequests: d[0]['id']);
