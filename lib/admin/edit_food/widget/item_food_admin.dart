@@ -156,7 +156,7 @@ class ItemFoodAdmin extends StatelessWidget {
                         fontSize: 16,
                         color: Colors.red,
                         fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(helperText: 'rival'),
+                    decoration: InputDecoration(helperText: 'discount'),
                     onChanged: (String? data) {
                       if (data != null) {
                         final value = int.tryParse(data);
