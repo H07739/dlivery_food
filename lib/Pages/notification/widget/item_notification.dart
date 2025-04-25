@@ -22,10 +22,7 @@ class ItemNotification extends StatelessWidget {
           backgroundColor: Colors.deepOrange,
           child: Icon(Icons.notifications, color: Colors.white),
         ),
-        title: Text(
-          model.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+
         subtitle: Text(model.body),
         trailing: Text(
           model.timeFormatted,
