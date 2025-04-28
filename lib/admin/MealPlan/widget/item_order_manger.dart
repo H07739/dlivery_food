@@ -8,7 +8,7 @@ import '../../../widgets/MaterialButtonX.dart';
 
 class ItemOrderManger extends StatelessWidget {
   ItemOrderManger(
-      {super.key, required this.orderModel, required this.onTapUpdate,required this.onTapDelete});
+      {super.key, required this.orderModel, required this.onTapUpdate, required this.onTapDelete});
   MealPlanModel orderModel;
   Function(String newStatus, MealPlanModel orderModel) onTapUpdate;
   late ValueNotifier<String> selected;
@@ -23,145 +23,109 @@ class ItemOrderManger extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(orderModel.orderModel.foodModel.image),
       ),
-
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: double.infinity,
-              ),
-              Text(
-                "price Food : ${orderModel.orderModel.foodModel.price}",
-                style: TextStyle(
-                  fontSize: 16,
+        SingleChildScrollView( // هذا هو العنصر الذي يسمح بالتمرير داخل التفاصيل
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "price Food : ${orderModel.orderModel.foodModel.price}",
+                  style: TextStyle(fontSize: 16),
                 ),
-              ),
-              Divider(),
-              Text('Quantity : ${orderModel.foodCount}'),
-              Divider(),
-              ValueListenableBuilder<List<FoodDetailModelX>>(
-                valueListenable: orderModel.orderModel.selectedExtras,
-                builder: (BuildContext context, List<FoodDetailModelX> value,
-                    Widget? child) {
-                  return Column(
-                    children: [
-                      for (var i = 0; i < value.length; i++)
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: value[i].check,
-                              onChanged: (bool? newValue) {},
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              value[i].name,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              "${value[i].price} D",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                    ],
-                  );
-                },
-              ),
-              Text(
-                "address : ${orderModel.address}",
-                style: TextStyle(
-                    fontSize: 16,
+                Divider(),
+                Text('Quantity : ${orderModel.foodCount}'),
+                Divider(),
+                ValueListenableBuilder<List<FoodDetailModelX>>(
+                  valueListenable: orderModel.orderModel.selectedExtras,
+                  builder: (BuildContext context, List<FoodDetailModelX> value, Widget? child) {
+                    return Column(
+                      children: [
+                        for (var i = 0; i < value.length; i++)
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: value[i].check,
+                                onChanged: (bool? newValue) {},
+                              ),
+                              SizedBox(width: 8),
+                              Text(value[i].name, style: TextStyle(fontSize: 18)),
+                              SizedBox(width: 8),
+                              Text("${value[i].price} D", style: TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                Text("address : ${orderModel.address}", style: TextStyle(fontSize: 16)),
+                Divider(),
+                Text("name : ${orderModel.namePerson}", style: TextStyle(fontSize: 16)),
+                Divider(),
+                Text("Method : ${orderModel.delivery}", style: TextStyle(fontSize: 16)),
+                Divider(),
+                Text(
+                  "Time : ${orderModel.createdAt.year}-${orderModel.createdAt.month.toString().padLeft(2, '0')}-${orderModel.createdAt.day.toString().padLeft(2, '0')} "
+                      "${orderModel.createdAt.hour.toString().padLeft(2, '0')}:${orderModel.createdAt.minute.toString().padLeft(2, '0')}",
+                  style: TextStyle(fontSize: 16),
+                ),
+                Divider(),
+                Text(
+                  "Total price : ${orderModel.orderModel.totalPrice.value}",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Status', style: TextStyle(fontSize: 14, color: Colors.grey)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: selected,
+                      builder: (BuildContext context, String value, Widget? child) {
+                        return DropdownButton<String>(
+                          value: value,
+                          items: List.generate(items.length, (int index) {
+                            return DropdownMenuItem(value: items[index], child: Text(items[index]));
+                          }),
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              selected.value = value;
+                            }
+                          },
+                        );
+                      },
                     ),
-              ),
-              Divider(),
-              Text(
-                "name : ${orderModel.namePerson}",
-                style: TextStyle(
-                  fontSize: 16,
+                  ],
                 ),
-              ),
-              Divider(),
-              Text(
-                "Method : ${orderModel.delivery}",
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Divider(),
-              Text(
-                "Time : ${orderModel.createdAt.year}-${orderModel.createdAt.month.toString().padLeft(2, '0')}-${orderModel.createdAt.day.toString().padLeft(2, '0')} "
-                    "${orderModel.createdAt.hour.toString().padLeft(2, '0')}:${orderModel.createdAt.minute.toString().padLeft(2, '0')}",
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-
-              Divider(),
-
-              Text(
-                "Total price : ${orderModel.orderModel.totalPrice.value}",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Status',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  ValueListenableBuilder<String>(
-                    valueListenable: selected,
-                    builder:
-                        (BuildContext context, String value, Widget? child) {
-                      return DropdownButton<String>(
-                        value: value,
-                        items: List.generate(items.length, (int index) {
-                          return DropdownMenuItem(
-                              value: items[index], child: Text(items[index]));
-                        }),
-                        onChanged: (String? value) {
-                          if (value != null) {
-                            selected.value = value;
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
+                Row(
+                  children: [
+                    Expanded(
                       child: MaterialButtonX(
-                    text: Text('Update Status',style: TextStyle(color: Colors.white),),
-                    onPressed: (ValueNotifier<bool> keyNotifier) async{
-                      try{
-                        keyNotifier.value = true;
-                        orderModel.status = selected.value;
-                        await updateState(model: orderModel);
-                        keyNotifier.value = false;
-                      }
-                      catch(e){
-                        keyNotifier.value = false;
-                        return;
-                      }
-                      onTapUpdate(selected.value,orderModel);
-                    },
-                  ))
-                ],
-              )
-            ],
+                        text: Text('Update Status', style: TextStyle(color: Colors.white)),
+                        onPressed: (ValueNotifier<bool> keyNotifier) async {
+                          try {
+                            keyNotifier.value = true;
+                            orderModel.status = selected.value;
+                            await updateState(model: orderModel);
+                            keyNotifier.value = false;
+                          } catch (e) {
+                            keyNotifier.value = false;
+                            return;
+                          }
+                          onTapUpdate(selected.value, orderModel);
+                        },
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         )
       ],
     );
   }
 }
+
+
+

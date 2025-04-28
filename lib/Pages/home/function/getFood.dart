@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../strings.dart';
-Future<List<FoodModel>> getFood({String? category, String? foodName}) async {
+Future<List<FoodModel>> getFood({String? category, String? foodName,ValueNotifier<int?>? notifications}) async {
   try {
     final user = supabase.auth.currentUser;
 
@@ -14,6 +15,19 @@ Future<List<FoodModel>> getFood({String? category, String? foodName}) async {
     var query = supabase
         .from(Table_Food)
         .select(selectColumns);
+    if(user != null && notifications != null){
+      List<Map<String,dynamic>> data = await supabase.from(Table_Notification)
+          .select('*')
+          .filter('id_receive', 'eq', user.id)
+          .filter('read', 'eq', false);
+
+      notifications.value = data.length;
+
+    }
+
+
+
+
 
     if (category != null) {
       query = query.filter('categorys', 'eq', category);
@@ -24,6 +38,8 @@ Future<List<FoodModel>> getFood({String? category, String? foodName}) async {
     }
 
     final response = await query;
+
+
 
     return List<FoodModel>.from(
       response.map((json) {

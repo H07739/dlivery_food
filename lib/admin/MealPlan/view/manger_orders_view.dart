@@ -10,7 +10,7 @@ import '../widget/item_select_state_order.dart';
 import '../widget/item_order_manger.dart';
 
 class MangerOrdersView extends StatefulWidget {
-  MangerOrdersView({super.key,required this.model});
+  MangerOrdersView({super.key, required this.model});
   MangerModel model;
   @override
   State<MangerOrdersView> createState() => _MangerOrdersViewState();
@@ -41,7 +41,7 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
             icon: const Icon(Icons.more_vert, color: Colors.white),
             onSelected: (value) {
               if (value == 'logout') {
-                Get.offAll(()=>AuthView());
+                Get.offAll(() => AuthView());
               }
             },
             itemBuilder: (BuildContext context) {
@@ -50,25 +50,23 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
                   value: 'logout',
                   child: Text('Logout'),
                 ),
-
               ];
             },
-
           ),
         ],
       ),
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ItemSelectStateOrder(
-              items: items,
-              onItemSelected: (String item) {
-                updateOrderSelect(item);
-              },
-            ),
-            const Divider(),
-            FutureBuilderX<List<MealPlanModel>>(
+      body: Column(
+        children: [
+          ItemSelectStateOrder(
+            items: items,
+            onItemSelected: (String item) {
+              updateOrderSelect(item);
+            },
+          ),
+          const Divider(),
+          // وضع Expanded حول الـ FutureBuilder ليتم تمرير القائمة الرئيسية
+          Expanded(
+            child: FutureBuilderX<List<MealPlanModel>>(
               future: () => getOrders(idAdmin: widget.model.id_admin),
               loadingView: const Center(
                 child: CircularProgressIndicator(),
@@ -79,8 +77,7 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
               doneView:
                   (List<MealPlanModel> data, ValueNotifier<int> keyNotifier) {
                 orders.value = data;
-                updateOrderSelect(
-                    itemDefault);
+                updateOrderSelect(itemDefault);
 
                 return ValueListenableBuilder<List<MealPlanModel>>(
                   valueListenable: orderSelect,
@@ -89,33 +86,39 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
                     if (value.isEmpty) {
                       return const Center(child: Text("Not Found Any Request"));
                     } else {
-                      return SizedBox(
-                        height: 800,
-                        child: ListView.builder(
-                          itemCount: value.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ItemOrderManger(
-                              orderModel: value[index],
-                              onTapUpdate: (String newStatus,
-                                  MealPlanModel orderModel) {
-                                 updateOrderStatus(order: orderModel, newStatus: newStatus);
-                              }, onTapDelete: (MealPlanModel orderModel) { deleteOrder(orderModel); },
-                            );
-                          },
-                        ),
+                      return ListView.builder(
+                        shrinkWrap:
+                            true, // هذا يتيح التمرير داخل هذه القائمة فقط
+                        physics:
+                            BouncingScrollPhysics(), // للتأكد من وجود تأثير التمرير
+                        itemCount: value.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ItemOrderManger(
+                            orderModel: value[index],
+                            onTapUpdate:
+                                (String newStatus, MealPlanModel orderModel) {
+                              updateOrderStatus(
+                                  order: orderModel, newStatus: newStatus);
+                            },
+                            onTapDelete: (MealPlanModel orderModel) {
+                              deleteOrder(orderModel);
+                            },
+                          );
+                        },
                       );
                     }
                   },
                 );
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  void updateOrderStatus({required MealPlanModel order,required String newStatus}) {
+  void updateOrderStatus(
+      {required MealPlanModel order, required String newStatus}) {
     int index = orders.value.indexWhere((element) => element == order);
     if (index != -1) {
       orders.value[index].status = newStatus;
@@ -129,10 +132,11 @@ class _MangerOrdersViewState extends State<MangerOrdersView> {
     orderSelect.notifyListeners();
   }
 
-  void deleteOrder(MealPlanModel order){
+  void deleteOrder(MealPlanModel order) {
     orders.value.remove(order);
     orders.notifyListeners();
-    orderSelect.value = orderSelect.value.where((element) => element!= order).toList();
+    orderSelect.value =
+        orderSelect.value.where((element) => element != order).toList();
     orderSelect.notifyListeners();
   }
 }

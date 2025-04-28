@@ -11,6 +11,7 @@ class FoodModel {
   bool is_favorite = false;
   int? rival;
   String priceOld;
+  String restaurant;
 
   FoodModel({
     required this.id,
@@ -22,7 +23,8 @@ class FoodModel {
     required this.category,
     required this.seller,
     required this.rival,
-    required this.priceOld
+    required this.priceOld,
+   required this.restaurant,
 
   });
 
@@ -40,7 +42,7 @@ class FoodModel {
       category: json['categorys'],
       seller: json['admin'],
       rival: json['rival'],
-      priceOld: price.toString(),
+      priceOld: price.toString(), restaurant:json['restaurant'],
     );
   }
 
