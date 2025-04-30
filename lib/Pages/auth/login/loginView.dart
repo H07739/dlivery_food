@@ -8,70 +8,161 @@ import 'package:my_project/main.dart';
 
 class Loginview extends StatelessWidget {
   Loginview({super.key});
-  TextEditingController controllerEmail=TextEditingController();
-  TextEditingController controllerPassword=TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
 
+  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                width: double.infinity,
-              ),
-              const SizedBox(
-                width: double.infinity,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              const Icon(
-                Icons.lock,
-                size: 50,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Login',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFieldEdit(hintTextField: 'Enter your Email', textEditingController: controllerEmail, hintText: 'Email',textInputType: TextInputType.emailAddress,),
-              TextFieldEdit(hintTextField: 'Enter your Password', textEditingController: controllerPassword, hintText: 'Password',textInputType: TextInputType.text,),
-              const SizedBox(height: 10,),
-              Row(children:[ Expanded(child: MaterialButtonX(onPressed: (ValueNotifier<bool> keyNotifier) async{
-                try{
-                  if(controllerEmail.text.isEmpty || controllerPassword.text.isEmpty)return;
-                  keyNotifier.value=true;
-                  await supabase.auth.signInWithPassword(email:controllerEmail.text,password: controllerPassword.text);
-                  keyNotifier.value=false;
-
-
-
-                  Widget nextView = await check();
-                  Get.offAll(() => nextView);
-
-
-
-                }
-                on AuthException catch(e){
-                  keyNotifier.value=false;
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
-                }
-                catch(e){
-                      keyNotifier.value=false;
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error : $e")));
-                    }
-              }, text: const Text('Login',style: TextStyle(color: Colors.white),),))])
-
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white,
+              Colors.blue.shade50,
             ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  IconButton(
+                    onPressed: () => Get.back(),
+                    icon: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 20,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade700.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.lock,
+                        size: 50,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Center(
+                    child: Text(
+                      'Welcome Back',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Center(
+                    child: Text(
+                      'Please enter your credentials to login',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  TextFieldEdit(
+                    hintTextField: 'Enter your Email',
+                    textEditingController: controllerEmail,
+                    hintText: 'Email',
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFieldEdit(
+                    hintTextField: 'Enter your Password',
+                    textEditingController: controllerPassword,
+                    hintText: 'Password',
+                    textInputType: TextInputType.text,
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: MaterialButtonX(
+                      onPressed: (ValueNotifier<bool> keyNotifier) async {
+                        try {
+                          if (controllerEmail.text.isEmpty || controllerPassword.text.isEmpty) return;
+                          keyNotifier.value = true;
+                          await supabase.auth.signInWithPassword(
+                            email: controllerEmail.text,
+                            password: controllerPassword.text,
+                          );
+                          keyNotifier.value = false;
+
+                          Widget nextView = await check();
+                          Get.offAll(() => nextView);
+                        } on AuthException catch (e) {
+                          keyNotifier.value = false;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.message),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          );
+                        } catch (e) {
+                          keyNotifier.value = false;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Error : $e"),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      text: const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
           ),
         ),
       ),

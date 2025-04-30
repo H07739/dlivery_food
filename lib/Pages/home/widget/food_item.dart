@@ -43,7 +43,7 @@ class FoodItem extends StatelessWidget {
                     url: model.image,
                     width: double.infinity,
                     height: 200,
-                    
+
                   ),
                 ),
               ),
