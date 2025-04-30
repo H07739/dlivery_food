@@ -15,110 +15,174 @@ class FoodItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(color: Colors.black26, blurRadius: 10, spreadRadius: 2)
-          ]),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              Get.to(ProductDetailPage(
-                product: model,
-              ));
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: ImageView(
-                url: model.image,
-                width: double.infinity,
-                height: 150,
+          Stack(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.to(ProductDetailPage(product: model));
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: ImageView(
+                    url: model.image,
+                    width: double.infinity,
+                    height: 200,
+                    
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 4,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: FavoriteItem(
+                    like: model.is_favorite,
+                    onPressed: (bool like) async {
+                      if (!like) {
+                        removeFavorite(model: model, context: context);
+                      } else {
+                        addFavorite(model: model, context: context);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
-            padding: EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  model.name,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  model.category,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${model.priceOld} D',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: model.rival == null?Colors.red:Colors.grey,
+                    Expanded(
+                      child: Text(
+                        model.name,
+                        style: const TextStyle(
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          decoration: model.rival != null
-                              ? TextDecoration.lineThrough
-                              : null),
+                          color: Colors.black87,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        model.category,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.blue.shade700,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 4,
+                const SizedBox(height: 8),
+                Text(
+                  model.restaurant,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                Visibility(
-                    visible:model.rival != null,
-                    child: Text(
-                      '${model.price} D',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
+                const SizedBox(height: 12),
                 Row(
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          Get.to(ProductDetailPage(
-                            product: model,
-                          ));
-                        },
-                        child: Text('View')),
-                    Spacer(),
-                    FavoriteItem(
-                      like: model.is_favorite,
-                      onPressed: (bool like) async {
-                        if (!like) {
-                          removeFavorite(model: model, context: context);
-                        } else {
-                          addFavorite(model: model, context: context);
-                        }
-                      },
+                    if (model.rival != null)
+                      Text(
+                        '${model.priceOld} D',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey.shade500,
+                          fontWeight: FontWeight.w500,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    if (model.rival != null) const SizedBox(width: 8),
+                    Text(
+                      '${model.price} D',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: model.rival == null ? Colors.red.shade700 : Colors.green.shade700,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(model.restaurant),
-                ),
-                Divider(),
+                const SizedBox(height: 12),
                 Text(
                   model.description,
-                  style: TextStyle(color: Colors.grey),
-                )
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                    height: 1.5,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(ProductDetailPage(product: model));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue.shade700,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'View Details',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
