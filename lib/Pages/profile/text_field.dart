@@ -42,7 +42,7 @@ class _TextFieldState extends State<TextFieldEdit> {
 
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
-                borderSide: const BorderSide(
+                borderSide:  BorderSide(
                   color: secondary,
                   width: 1,
                 ),

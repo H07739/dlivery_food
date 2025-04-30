@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/shopping_cart/function/add_request.dart';
 import 'package:my_project/widgets/MaterialButtonX.dart';
+import '../../../color.dart';
 import '../../../main.dart';
 import '../../../widgets/showLoginRequiredDialog.dart';
 import '../model/FoodOrderModel.dart';
@@ -21,16 +22,18 @@ class ShoppingCartView extends StatelessWidget {
           (BuildContext context, List<FoodOrderModel> value, Widget? child) {
         if (value.isNotEmpty) {
           return Scaffold(
+            backgroundColor: backgroundColor,
             appBar: AppBar(
               centerTitle: true,
-              title: const Text(
+              title:  Text(
                 'Cart',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold,color: textBarColor),
               ),
               leading: IconButton(
                 onPressed: () => Get.back(),
                 icon: const Icon(Icons.arrow_back_ios),
               ),
+              backgroundColor: backgroundColor,
             ),
             body: SingleChildScrollView(
               child: Column(

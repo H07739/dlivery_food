@@ -4,6 +4,7 @@ import 'package:my_project/Pages/home/function/get_food_detail.dart';
 import 'package:my_project/Pages/home/model/food_model.dart';
 import 'package:my_project/Pages/home/widget/image_food_detail.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
+import '../../../color.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
@@ -26,10 +27,10 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text(product.name, style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
+        title: Text(product.name, style: TextStyle(color: textBarColor)),
+        backgroundColor: backgroundColor,
         actions: [
           IconShopping(),
         ],

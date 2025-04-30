@@ -22,7 +22,7 @@ class HomeMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kbackgroundColor,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios)),
@@ -32,10 +32,10 @@ class HomeMain extends StatelessWidget {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: textBarColor,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         actions: [
           ValueListenableBuilder<int?>(
             valueListenable: notifications,

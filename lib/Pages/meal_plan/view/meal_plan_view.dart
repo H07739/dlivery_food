@@ -7,6 +7,7 @@ import 'package:my_project/Pages/meal_plan/widget/meal_plan_item.dart';
 import 'package:my_project/main.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 
+import '../../../color.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../model/meal_plan_model.dart';
 
@@ -21,9 +22,10 @@ class _MealPlanViewState extends State<MealPlanView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text('Meal Plan'),
-        backgroundColor: Colors.white,
+        title: Text('Meal Plan',style: TextStyle(color: textBarColor),),
+        backgroundColor:backgroundColor,
       ),
       body: supabase.auth.currentUser != null?FutureBuilderX<List<MealPlanModel>>(
         future: () => getRequests(),

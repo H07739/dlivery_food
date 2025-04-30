@@ -18,14 +18,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kbackgroundColor,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: kbackgroundColor,
+        backgroundColor: backgroundColor,
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           "Favorites",
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: textBarColor
           ),
         ),
       ),

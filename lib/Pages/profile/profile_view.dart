@@ -33,14 +33,15 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Profile',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: textBarColor),
         ),
         elevation: 2,
         shadowColor: Colors.grey.withOpacity(0.5),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         iconTheme: const IconThemeData(color: Colors.black),
         leading: IconButton(
             onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios)),

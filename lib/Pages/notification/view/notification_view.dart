@@ -5,6 +5,7 @@ import 'package:my_project/Pages/notification/function/get_notification.dart';
 import 'package:my_project/Pages/notification/model/notification_model.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 
+import '../../../color.dart';
 import '../widget/item_notification.dart';
 class NotificationView extends StatelessWidget {
   NotificationView({super.key});
@@ -12,12 +13,13 @@ class NotificationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
           'Notification',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color:textBarColor,),
         ),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: backgroundColor,
       ),
       body: FutureBuilderX<List<NotificationModel>>(
         future: () => getNotification(),

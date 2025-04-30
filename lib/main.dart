@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
+import 'package:my_project/color.dart';
 import 'package:my_project/strings.dart';
+import 'package:my_project/super_admin/home/view/home_view.dart';
 import 'package:my_project/test_view.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,13 +12,14 @@ import 'package:my_project/Pages/auth/auth_view.dart';
 import 'admin/MealPlan/view/manger_orders_view.dart';
 import 'admin/home/view/admin_view.dart';
 import 'admin/setting/model/manger_model.dart';
+import 'package:get/get.dart';
 
 late SupabaseClient supabase;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialisation de Supabase
+  // Initialize Supabase
   await Supabase.initialize(
     url: 'https://nbwsqixsnycekwvdyxsl.supabase.co',
     anonKey:
@@ -25,6 +28,9 @@ void main() async {
 
   supabase = Supabase.instance.client;
   setupOrderListener();
+
+  // Initialize theme controller
+  Get.put(ThemeController());
 
   runApp(const MyApp());
 }
@@ -35,12 +41,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false, //
-      title: 'My Project fgdfg',
+      debugShowCheckedModeBanner: false,
+      title: 'My Project',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-     // home: TestView(),
       home: FutureBuilderX<Widget>(
         future: () => check(),
         loadingView: Material(
@@ -57,16 +62,35 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-
 }
+
 Future<Widget> check() async {
+  try {
+    // Load theme colors
+    final settings = await supabase
+        .from(Table_Seteing)
+        .select()
+        .eq('id', 1)
+        .maybeSingle();
+
+    if (settings != null) {
+      final settingModel = SettingModel.fromJson(settings);
+      settingModel.applyToController();
+    }
+  } catch (e) {
+    print('Error loading theme settings: $e');
+  }
+
   final user = supabase.auth.currentUser;
 
   if (user == null) {
-   // return AuthView();
     return HomeView();
   }
+
+  List<Map<String, dynamic>> superAdmin = await supabase
+      .from(Table_Super_Admin)
+      .select('*')
+      .eq('uuid', supabase.auth.currentUser!.id);
 
   List<Map<String, dynamic>> admin = await supabase
       .from(Table_Admins)
@@ -78,7 +102,9 @@ Future<Widget> check() async {
       .select('*')
       .eq('id_user', supabase.auth.currentUser!.id);
 
-  if (admin.isNotEmpty) {
+  if (superAdmin.isNotEmpty) {
+    return SuperAdminHomeView();
+  } else if (admin.isNotEmpty) {
     await supabase.auth.updateUser(
       UserAttributes(
         data: {
@@ -87,13 +113,9 @@ Future<Widget> check() async {
       ),
     );
     return AdminView();
-  }
-  else if(manger.isNotEmpty){
-
-    return MangerOrdersView(model: MangerModel.fromJson(manger[0]),);
-  }
-
-  else {
+  } else if (manger.isNotEmpty) {
+    return MangerOrdersView(model: MangerModel.fromJson(manger[0]));
+  } else {
     return HomeView();
   }
 }

@@ -11,6 +11,7 @@ const String Table_Requests="Requests";
 const String Table_Detail="suplem";
 const String Table_Manger="Manger";
 const String Table_Notification="notifications";
+const String Table_Seteing = 'settings';
 
 const List<String> items = [
   'Pending',
