@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../model/admin_model.dart';
+import 'deleted_admin.dart';
 
 void showDeleteConfirmationDialog({
   required BuildContext context,
   required String adminName,
+  required AdminModel admin,
   required VoidCallback onConfirm,
 }) {
   showDialog(
@@ -84,9 +87,15 @@ void showDeleteConfirmationDialog({
                   ),
                   const SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pop(context);
-                      onConfirm();
+                      try {
+                        await deletedAdmin(admin: admin);
+                        onConfirm();
+                      } catch (e) {
+                        // Handle error if needed
+                        rethrow;
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../color.dart';
 
@@ -19,19 +18,18 @@ class MaterialButtonX extends StatelessWidget {
       builder: (BuildContext context, bool value, Widget? child) {
         return Padding(
           padding: padding ?? const EdgeInsets.all(8),
-          child: Obx(()=>MaterialButton(
-              onPressed:()=>onPressed(_keyNotifier),
-              color: color ?? ThemeController.primaryColor,
-              height: height ?? 50,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(circular ?? 8),
-              ),
-              child: value
-                  ? const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.white),
-              )
-                  : text,
+          child: MaterialButton(
+            onPressed:()=>onPressed(_keyNotifier),
+            color: color ?? primaryColor,
+            height: height ?? 50,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(circular ?? 8),
             ),
+            child: value
+                ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Colors.white),
+            )
+                : text,
           ),
         );
       },

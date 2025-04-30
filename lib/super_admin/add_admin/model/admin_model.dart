@@ -2,9 +2,11 @@ class AdminModel {
   int id;
   DateTime createdAt;
   String idAdmin;
-  final String name;
+  String name;
   String restaurantAdmin;
-  final String email;
+  String email;
+  String phone;
+  String address;
 
   AdminModel({
     required this.name,
@@ -12,7 +14,9 @@ class AdminModel {
     required this.id,
     required this.createdAt,
     required this.idAdmin,
-    required this.restaurantAdmin
+    required this.restaurantAdmin,
+    required this.phone,
+    required this.address
 
   });
 
@@ -23,7 +27,7 @@ class AdminModel {
       idAdmin: json['uuid'],
       name: json['name'],
       restaurantAdmin: json['restaurant_admin'],
-      email: json['email'],
+      email: json['email'], phone: json['phone'], address: json['address'],
     );
   }
   Map<String,dynamic> toMap(){
@@ -31,7 +35,9 @@ class AdminModel {
       'uuid':idAdmin,
       'name':name,
       'email':email,
-      'restaurant_admin':restaurantAdmin
+      'restaurant_admin':restaurantAdmin,
+      'phone':phone,
+      'address':address
 
     };
   }

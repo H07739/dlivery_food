@@ -29,8 +29,7 @@ void main() async {
   supabase = Supabase.instance.client;
   setupOrderListener();
 
-  // Initialize theme controller
-  Get.put(ThemeController());
+
 
   runApp(const MyApp());
 }
@@ -67,16 +66,21 @@ class MyApp extends StatelessWidget {
 Future<Widget> check() async {
   try {
     // Load theme colors
-    final settings = await supabase
+    List<Map<String, dynamic>> settings = await supabase
         .from(Table_Seteing)
         .select()
-        .eq('id', 1)
-        .maybeSingle();
+        .eq('id', 1);
 
-    if (settings != null) {
-      final settingModel = SettingModel.fromJson(settings);
-      settingModel.applyToController();
-    }
+    SeteingModel seteingModel = SeteingModel.fromJson(settings.first);
+
+    backgroundColor = seteingModel.backgroundColor ?? backgroundColor;
+    textBarColor = seteingModel.textBarColor ?? textBarColor;
+    bottomNavigtionBarColor = seteingModel.bottomNavigtionBarColor ?? bottomNavigtionBarColor;
+    selectBottomItemColor = seteingModel.selectBottomItemColor ?? selectBottomItemColor;
+    unselectBottomItemColor = seteingModel.unselectBottomItemColor ?? unselectBottomItemColor;
+    print(seteingModel.unselectBottomItemColor);
+
+
   } catch (e) {
     print('Error loading theme settings: $e');
   }

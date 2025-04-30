@@ -80,7 +80,12 @@ class AddAdminController extends GetxController {
     }
   }
 
-  Future<void> addAdmin(String name, String email, String restaurantAdmin) async {
+  Future<void> addAdmin(
+      {required String name,
+        required String email,
+        required String restaurantAdmin,
+        required String phone,
+        required String address}) async {
     try {
       isLoading.value = true;
       hasError.value = false;
@@ -100,7 +105,7 @@ class AddAdminController extends GetxController {
       final admin = await addAdmins(
         email: email,
         name: name,
-        restaurantAdmin: restaurantAdmin,
+        restaurantAdmin: restaurantAdmin, phone: phone, address: address,
       );
 
       admins.add(admin);
