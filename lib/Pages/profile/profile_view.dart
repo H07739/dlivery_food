@@ -13,7 +13,6 @@ import 'package:my_project/widgets/image_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../color.dart';
-import '../../widgets/MaterialButtonX.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -33,207 +32,308 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: Text(
           'Profile',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: textBarColor),
-        ),
-        elevation: 2,
-        shadowColor: Colors.grey.withOpacity(0.5),
-        backgroundColor: backgroundColor,
-        iconTheme: const IconThemeData(color: Colors.black),
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios)),
-      ),
-      body: supabase.auth.currentUser != null ?SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: ()async{
-                  imageFile.value = await pickImage(imageSelect: selectedImage);
-                },
-                child: ClipOval(
-                  child: ValueListenableBuilder<File?>(
-                    valueListenable: imageFile,
-                    builder: (BuildContext context, File? value, Widget? child) {
-                      if(value != null){
-                        return SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: Image.file(
-                            imageFile.value!,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      }
-                      return ImageView(
-                          height: 200,
-                          width: 200,
-                          url:
-                          image ?? 'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg');
-                    },
-
-                  ),
-                ),
-              ),
-              TextFieldEdit(
-                hintText: 'Name',
-                hintTextField: controllerName.text.isEmpty
-                    ? 'Enter Name'
-                    : controllerName.text,
-                colorTextField: colorTextField,
-                colorText: Colors.black,
-                textEditingController: controllerName,
-              ),
-              const SizedBox(height: 10),
-              TextFieldEdit(
-                hintText: 'Email',
-                hintTextField: controllerEmail.text.isEmpty
-                    ? 'Enter Email'
-                    : controllerEmail.text,
-                colorTextField: colorTextField,
-                colorText: Colors.black,
-                textInputType: TextInputType.emailAddress,
-                textEditingController: controllerEmail,
-              ),
-              const SizedBox(height: 10),
-              TextFieldEdit(
-                hintText: 'Address',
-                hintTextField: controllerLocal.text.isEmpty
-                    ? 'Enter Address'
-                    : controllerLocal.text,
-                colorTextField: colorTextField,
-                colorText: Colors.black,
-                textInputType: TextInputType.text,
-                textEditingController: controllerLocal,
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: MaterialButtonX(
-                      text: const Text(
-                        'Updata',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      onPressed: (ValueNotifier<bool> keyNotifier) async {
-                        try {
-
-
-                          if (controllerName.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Name, please enter."),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                            return;
-                          }
-
-                          if (controllerLocal.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("The address is empty, please enter it."),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                            return;
-                          }
-
-                          keyNotifier.value = true;
-                          await supabase.auth.updateUser(
-                            UserAttributes(
-                              data: {
-                                "name": controllerName.text,
-                                "address": controllerLocal.text,
-                              },
-                            ),
-                          );
-                          String? i;
-                          if(imageFile.value != null){
-                            // ignore: use_build_context_synchronously
-                            i = await uploadImage(imageFile: imageFile.value!, pathFolder: 'user', context: context,url: image);
-                          }
-
-                          await supabase.auth.updateUser(
-                            UserAttributes(
-                              data: {
-                                "name": controllerName.text,
-                                "address": controllerLocal.text,
-                                'image':i
-                              },
-                            ),
-                          );
-
-                          keyNotifier.value = false;
-                          setState(() {});
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("User updated successfully")));
-                        } catch (e) {
-                          print(e);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Error : $e")));
-                          keyNotifier.value = false;
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: MaterialButtonX(
-                    text: const Text(
-                      'Sig out',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: (ValueNotifier<bool> keyNotifier) async {
-                      keyNotifier.value = true;
-                      await supabase.auth.signOut();
-                      OrderManager.clearOrders();
-                      keyNotifier.value = false;
-                      Get.offAll(() => AuthView());
-                    },
-                    color: Colors.deepOrangeAccent,
-                  ))
-                ],
-              ),
-            ],
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: textBarColor,
           ),
         ),
-      ):Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.lock_outline, size: 60, color: Colors.grey),
-            SizedBox(height: 16),
-            Text(
-              'You need to log in first',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(AuthView());
-              },
-              child: Text('Login'),
-            ),
-          ],
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
-      )
-      ,
+      ),
+      body: supabase.auth.currentUser != null
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              imageFile.value = await pickImage(imageSelect: selectedImage);
+                            },
+                            child: Stack(
+                              children: [
+                                ClipOval(
+                                  child: ValueListenableBuilder<File?>(
+                                    valueListenable: imageFile,
+                                    builder: (BuildContext context, File? value, Widget? child) {
+                                      if (value != null) {
+                                        return SizedBox(
+                                          height: 150,
+                                          width: 150,
+                                          child: Image.file(
+                                            imageFile.value!,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      }
+                                      return ImageView(
+                                        height: 150,
+                                        width: 150,
+                                        url: image ??
+                                            'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg',
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: secondary,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 5,
+                                          spreadRadius: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          TextFieldEdit(
+                            hintText: 'Name',
+                            hintTextField: controllerName.text.isEmpty
+                                ? 'Enter Name'
+                                : controllerName.text,
+                            colorTextField: Colors.grey.shade100,
+                            colorText: Colors.black87,
+                            textEditingController: controllerName,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFieldEdit(
+                            hintText: 'Email',
+                            hintTextField: controllerEmail.text.isEmpty
+                                ? 'Enter Email'
+                                : controllerEmail.text,
+                            colorTextField: Colors.grey.shade100,
+                            colorText: Colors.black87,
+                            textInputType: TextInputType.emailAddress,
+                            textEditingController: controllerEmail,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFieldEdit(
+                            hintText: 'Address',
+                            hintTextField: controllerLocal.text.isEmpty
+                                ? 'Enter Address'
+                                : controllerLocal.text,
+                            colorTextField: Colors.grey.shade100,
+                            colorText: Colors.black87,
+                            textInputType: TextInputType.text,
+                            textEditingController: controllerLocal,
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    try {
+                                      if (controllerName.text.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("Name, please enter."),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      if (controllerLocal.text.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("The address is empty, please enter it."),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      String? i;
+                                      if (imageFile.value != null) {
+                                        i = await uploadImage(
+                                          imageFile: imageFile.value!,
+                                          pathFolder: 'user',
+                                          context: context,
+                                          url: image,
+                                        );
+                                      }
+
+                                      await supabase.auth.updateUser(
+                                        UserAttributes(
+                                          data: {
+                                            "name": controllerName.text,
+                                            "address": controllerLocal.text,
+                                            'image': i,
+                                          },
+                                        ),
+                                      );
+
+                                      setState(() {});
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("User updated successfully"),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      print(e);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Error : $e"),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: secondary,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  child: const Text(
+                                    'Update Profile',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await supabase.auth.signOut();
+                                    OrderManager.clearOrders();
+                                    Get.offAll(() => const AuthView());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red.shade300,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  child: const Text(
+                                    'Sign Out',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.lock_outline,
+                    size: 60,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'You need to log in first',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.to(const AuthView());
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: secondary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 2,
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    if(supabase.auth.currentUser == null)return;
+    if (supabase.auth.currentUser == null) return;
     String? name = supabase.auth.currentUser!.userMetadata!['name'];
     String? email = supabase.auth.currentUser!.userMetadata!['email'];
     String? address = supabase.auth.currentUser!.userMetadata!['address'];

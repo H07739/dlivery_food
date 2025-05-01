@@ -12,7 +12,8 @@ class FoodModel {
   int? rival;
   String priceOld;
   String restaurant;
-
+  DateTime? startDiscount;
+  DateTime? endDiscount;
   FoodModel({
     required this.id,
     required this.createdAt,
@@ -25,6 +26,8 @@ class FoodModel {
     required this.rival,
     required this.priceOld,
    required this.restaurant,
+    required this.startDiscount,
+    required this.endDiscount
 
   });
 
@@ -43,6 +46,12 @@ class FoodModel {
       seller: json['admin'],
       rival: json['rival'],
       priceOld: price.toString(), restaurant:json['restaurant'],
+      startDiscount: json['start_discount'] != null
+          ? DateTime.parse(json['start_discount'])
+          : null,
+      endDiscount: json['end_discount'] != null
+          ? DateTime.parse(json['end_discount'])
+          : null,
     );
   }
 

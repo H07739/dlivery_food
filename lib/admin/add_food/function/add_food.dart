@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_project/admin/add_food/function/uploadImage.dart';
 import 'package:my_project/main.dart';
 
 import '../../../strings.dart';
+import '../../setting/controller/setting_controller.dart';
 
 Future<void> addFood({
   required String name,
@@ -16,6 +18,8 @@ Future<void> addFood({
   required BuildContext context
 })async{
   try{
+    final controller = Get.find<SettingController>();
+
     String? image;
     if(supabase.auth.currentUser == null) throw 'user is not login ';
 
@@ -30,7 +34,8 @@ Future<void> addFood({
       "price": price, // ok
       "categorys": categorys, //ok
       "admin":supabase.auth.currentUser!.id, // ok
-      "id_category":idcategory
+      "id_category":idcategory,
+      'restaurant':controller.admin.value!.restaurantAdmin
     });
     print('Food added successfully : $result');
   }

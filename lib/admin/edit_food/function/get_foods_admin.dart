@@ -9,7 +9,11 @@ import '../model/EditFoodModel.dart';
 Future<List<EditFoodModel>> getFoodsAdmin()async{
   try{
     List<EditFoodModel> list =  [];
-    List<Map<String,dynamic>> result = await supabase.from(Table_Food).select('*').eq('admin', supabase.auth.currentUser!.id);
+    List<Map<String, dynamic>> result = await supabase
+        .from(Table_Food)
+        .select('*')
+        .eq('admin', supabase.auth.currentUser!.id)
+        .order('id', ascending: false);
     List<CategoryModel> categories = await getCategory();
     for (var data in result) {
       list.add(EditFoodModel(foodAdminModel: FoodAdminModel.fromJson(json: data), categoryModel: categories));

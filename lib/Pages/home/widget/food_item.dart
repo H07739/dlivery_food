@@ -7,9 +7,32 @@ import '../../../widgets/favorite_item.dart';
 import '../function/add_favorite.dart';
 import '../view/food_detail_view.dart';
 
-class FoodItem extends StatelessWidget {
+class FoodItem extends StatefulWidget {
   FoodItem({super.key, required this.model});
-  FoodModel model;
+  final FoodModel model;
+
+  @override
+  State<FoodItem> createState() => _FoodItemState();
+}
+
+class _FoodItemState extends State<FoodItem> {
+  String _getRemainingTime() {
+    if (widget.model.endDiscount == null) return '';
+
+    final now = DateTime.now();
+    final end = widget.model.endDiscount!;
+
+    if (now.isAfter(end)) return '';
+
+    final difference = end.difference(now);
+    final days = difference.inDays;
+
+    if (days > 0) {
+      return '$days days left';
+    } else {
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +58,14 @@ class FoodItem extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  Get.to(ProductDetailPage(product: model));
+                  Get.to(ProductDetailPage(product: widget.model));
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                   child: ImageView(
-                    url: model.image,
+                    url: widget.model.image,
                     width: double.infinity,
                     height: 200,
-
                   ),
                 ),
               ),
@@ -64,12 +86,12 @@ class FoodItem extends StatelessWidget {
                     ],
                   ),
                   child: FavoriteItem(
-                    like: model.is_favorite,
+                    like: widget.model.is_favorite,
                     onPressed: (bool like) async {
                       if (!like) {
-                        removeFavorite(model: model, context: context);
+                        removeFavorite(model: widget.model, context: context);
                       } else {
-                        addFavorite(model: model, context: context);
+                        addFavorite(model: widget.model, context: context);
                       }
                     },
                   ),
@@ -87,7 +109,7 @@ class FoodItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        model.name,
+                        widget.model.name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -104,7 +126,7 @@ class FoodItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        model.category,
+                        widget.model.category,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.blue.shade700,
@@ -116,7 +138,7 @@ class FoodItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  model.restaurant,
+                  widget.model.restaurant,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey.shade700,
@@ -126,9 +148,9 @@ class FoodItem extends StatelessWidget {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    if (model.rival != null)
+                    if (widget.model.rival != null)
                       Text(
-                        '${model.priceOld} D',
+                        '${widget.model.priceOld} D',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey.shade500,
@@ -136,20 +158,53 @@ class FoodItem extends StatelessWidget {
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
-                    if (model.rival != null) const SizedBox(width: 8),
+                    if (widget.model.rival != null) const SizedBox(width: 8),
                     Text(
-                      '${model.price} D',
+                      '${widget.model.price} D',
                       style: TextStyle(
                         fontSize: 20,
-                        color: model.rival == null ? Colors.red.shade700 : Colors.green.shade700,
+                        color: widget.model.rival == null ? Colors.red.shade700 : Colors.green.shade700,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
+                if (widget.model.rival != null && widget.model.endDiscount != null && _getRemainingTime().isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.red.shade200,
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.timer_outlined,
+                          size: 16,
+                          color: Colors.red.shade700,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          _getRemainingTime(),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.red.shade700,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 12),
                 Text(
-                  model.description,
+                  widget.model.description,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey.shade600,
@@ -163,7 +218,7 @@ class FoodItem extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(ProductDetailPage(product: model));
+                      Get.to(ProductDetailPage(product: widget.model));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue.shade700,
