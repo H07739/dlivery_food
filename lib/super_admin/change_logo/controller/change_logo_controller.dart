@@ -76,7 +76,7 @@ class ChangeLogoController extends GetxController {
       final imageUrl = supabase.storage.from('image').getPublicUrl(filePath);
 
       // تحديث الرابط في قاعدة البيانات
-      await supabase.from(Table_Seteing).upsert({'logo_url': imageUrl}).eq('id', 1);
+      await supabase.from(Table_Seteing).update({'logo_url': imageUrl}).eq('id', 1);
 
       // إشعار المستخدم
       Get.snackbar(

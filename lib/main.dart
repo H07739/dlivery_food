@@ -78,8 +78,8 @@ Future<Widget> check() async {
     bottomNavigtionBarColor = seteingModel.bottomNavigtionBarColor ?? bottomNavigtionBarColor;
     selectBottomItemColor = seteingModel.selectBottomItemColor ?? selectBottomItemColor;
     unselectBottomItemColor = seteingModel.unselectBottomItemColor ?? unselectBottomItemColor;
-    print(seteingModel.unselectBottomItemColor);
-
+    logo_url = seteingModel.logo_url;
+    print(logo_url);
 
   } catch (e) {
     print('Error loading theme settings: $e');

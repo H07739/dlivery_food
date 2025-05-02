@@ -24,8 +24,19 @@ class HomeMain extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios)),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                image: NetworkImage(logo_url!),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: Text(
           "Fast Food Menu",
@@ -35,6 +46,7 @@ class HomeMain extends StatelessWidget {
             color: textBarColor,
           ),
         ),
+
         backgroundColor: backgroundColor,
         actions: [
           ValueListenableBuilder<int?>(

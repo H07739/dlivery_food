@@ -98,13 +98,13 @@ class ProductDetailPage extends StatelessWidget {
                     OrderManager.addOrder(orderModel);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange,
+                    backgroundColor: Colors.blue.shade700,
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                     textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.deepOrange),
+
                     ),
                   ),
                   child: Text("Add To Cart"),

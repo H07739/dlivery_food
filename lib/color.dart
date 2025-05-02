@@ -14,7 +14,7 @@ Color textBarColor = const Color(0xff090606);
 Color bottomNavigtionBarColor = const Color(0xffffffff);
 Color selectBottomItemColor = const Color(0xff579f8c);
 Color unselectBottomItemColor = const Color(0xff568A9F);
-
+String? logo_url;
 
 class SeteingModel {
   Color? unselectBottomItemColor;
