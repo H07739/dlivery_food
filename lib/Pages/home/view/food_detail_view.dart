@@ -6,6 +6,7 @@ import 'package:my_project/Pages/home/widget/image_food_detail.dart';
 import 'package:my_project/widgets/FutureBuilderX.dart';
 import '../../../color.dart';
 import '../../shopping_cart/model/FoodOrderModel.dart';
+import '../function/show_dialog_information.dart';
 import '../model/food_detail_model.dart';
 import '../widget/food_detail_info.dart';
 import '../widget/icon_shopping.dart';
@@ -32,7 +33,11 @@ class ProductDetailPage extends StatelessWidget {
         title: Text(product.name, style: TextStyle(color: textBarColor)),
         backgroundColor: backgroundColor,
         actions: [
+          IconButton(onPressed: (){
+            showRestaurantDialog(context,product.seller);
+          }, icon:Icon(Icons.info)),
           IconShopping(),
+
         ],
       ),
 

@@ -27,14 +27,16 @@ class FutureBuilderX<T> extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return loadingView;
             } else if (snapshot.hasError) {
-              return Center(
-                child: Row(
-                  children: [
-                    Expanded(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlinedButton(onPressed: ()=>_keyNotifier.value++, child: const Text('Try Again',style: TextStyle(color: Colors.red),)),
-                    )),
-                  ],
+              return Material(
+                child: Center(
+                  child: Row(
+                    children: [
+                      Expanded(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: OutlinedButton(onPressed: ()=>_keyNotifier.value++, child: const Text('اعادة المحاولة',style: TextStyle(color: Colors.red),)),
+                      )),
+                    ],
+                  ),
                 ),
               );
             } else if (snapshot.hasData) {

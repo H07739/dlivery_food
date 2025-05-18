@@ -21,9 +21,8 @@ void main() async {
 
   // Initialize Supabase
   await Supabase.initialize(
-    url: 'https://nbwsqixsnycekwvdyxsl.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5id3NxaXhzbnljZWt3dmR5eHNsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgyODE3MjgsImV4cCI6MjA1Mzg1NzcyOH0.XJXaG-bQzhof2MwHwHMsTeMbat9fiG8fULI0N2oVPCQ',
+    url: url,
+    anonKey:anonKey,
   );
 
   supabase = Supabase.instance.client;

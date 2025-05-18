@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:my_project/admin/setting/controller/setting_controller.dart';
 import 'package:my_project/admin/setting/view/manger_view.dart';
 import 'package:my_project/main.dart';
@@ -7,10 +10,18 @@ import 'package:my_project/widgets/MaterialButtonX.dart';
 import 'package:my_project/Pages/auth/auth_view.dart';
 import 'package:my_project/Pages/profile/text_field.dart';
 
+import '../../../widgets/image_view.dart';
+import '../../add_food/function/pickImage.dart';
+import 'location_map_view.dart';
+
 class SeetingView extends StatelessWidget {
   SeetingView({super.key});
 
   final controller = Get.put(SettingController());
+  ValueNotifier<bool> selectedImage = ValueNotifier(false);
+  String? image;
+
+  ValueNotifier<File?> imageFile = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +77,47 @@ class SeetingView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.blue.shade100,
-                        child: Text(
-                          admin.name[0].toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepOrange,
+                      child: GestureDetector(
+                        onTap: () async {
+                          imageFile.value =
+                              await pickImage(imageSelect: selectedImage);
+                        },
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.blue.shade100,
+                          child: ValueListenableBuilder<File?>(
+                            valueListenable: imageFile,
+                            builder: (BuildContext context, File? value,
+                                Widget? child) {
+                              if (value != null) {
+                                return ClipOval(
+                                  child: SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Image.file(
+                                      imageFile.value!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              }
+                              if (admin.image != null) {
+                                return ClipOval(
+                                  child: ImageView(
+                                      height: 150,
+                                      width: 150,
+                                      url: admin.image!),
+                                );
+                              }
+                              return Text(
+                                admin.name[0].toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -139,11 +182,33 @@ class SeetingView extends StatelessWidget {
                               textInputType: TextInputType.text,
                             ),
                             const SizedBox(height: 16),
+                            ListTile(
+                              onTap: () {
+                                Get.to(LocationMapView(
+                                  onLocationSelected: (LatLng data) {
+                                    print(data);
+                                    admin.longitude = data.longitude;
+                                    admin.latitude = data.latitude;
+                                  },
+                                  initialLatitude: admin.latitude,
+                                  initialLongitude: admin.longitude,
+                                ));
+                              },
+                              trailing: Icon(Icons.arrow_forward),
+                              leading: Text(
+                                'Location',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                             SizedBox(
                               width: double.infinity,
                               height: 48,
                               child: ElevatedButton(
-                                onPressed: controller.updateAdminData,
+                                onPressed: () async {
+                                  await controller.updateAdminData(
+                                      context: context, image: imageFile.value);
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.deepOrange,
                                   foregroundColor: Colors.white,
@@ -174,7 +239,7 @@ class SeetingView extends StatelessWidget {
                         ),
                       ),
                       child: ListTile(
-                        onTap: () => Get.to(() =>  MangerView()),
+                        onTap: () => Get.to(() => MangerView()),
                         leading: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
