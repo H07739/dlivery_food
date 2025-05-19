@@ -16,22 +16,17 @@ class FoodItem extends StatefulWidget {
 }
 
 class _FoodItemState extends State<FoodItem> {
-  String _getRemainingTime() {
-    if (widget.model.endDiscount == null) return '';
+  String? _getRemainingTime() {
+    final end = widget.model.endDiscount;
+    if (end == null) return null;
 
     final now = DateTime.now();
-    final end = widget.model.endDiscount!;
-
-    if (now.isAfter(end)) return '';
+    if (!now.isBefore(end)) return null;
 
     final difference = end.difference(now);
     final days = difference.inDays;
 
-    if (days > 0) {
-      return '$days days left';
-    } else {
-      return '';
-    }
+    return '$days days left';
   }
 
   @override
@@ -61,7 +56,8 @@ class _FoodItemState extends State<FoodItem> {
                   Get.to(ProductDetailPage(product: widget.model));
                 },
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
                   child: ImageView(
                     url: widget.model.image,
                     width: double.infinity,
@@ -120,7 +116,8 @@ class _FoodItemState extends State<FoodItem> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
@@ -146,62 +143,75 @@ class _FoodItemState extends State<FoodItem> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  children: [
-                    if (widget.model.rival != null)
-                      Text(
+                _getRemainingTime() != null
+                    ? Row(
+                        children: [
+                          Text(
+                            '${widget.model.priceOld} D',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade500,
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${widget.model.price} D',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.green.shade700,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
                         '${widget.model.priceOld} D',
                         style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    if (widget.model.rival != null) const SizedBox(width: 8),
-                    Text(
-                      '${widget.model.price} D',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: widget.model.rival == null ? Colors.red.shade700 : Colors.green.shade700,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                if (widget.model.rival != null && widget.model.endDiscount != null && _getRemainingTime().isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.red.shade200,
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.timer_outlined,
-                          size: 16,
+                          fontSize: 20,
                           color: Colors.red.shade700,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          _getRemainingTime(),
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.red.shade700,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      ),
+                Visibility(
+                  visible: _getRemainingTime() != null,
+                    child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.red.shade200,
+                          width: 1,
                         ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.timer_outlined,
+                              size: 16,
+                              color: Colors.red.shade700,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              _getRemainingTime() ?? '',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red.shade700,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ]
+                      ),
+                    )
+                  ],
+                )),
+
                 const SizedBox(height: 12),
                 Text(
                   widget.model.description,

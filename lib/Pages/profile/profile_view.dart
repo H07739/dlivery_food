@@ -23,6 +23,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   TextEditingController controllerName = TextEditingController();
+  TextEditingController controllerLastName = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerLocal = TextEditingController();
   ValueNotifier<bool> selectedImage = ValueNotifier(false);
@@ -130,13 +131,22 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           const SizedBox(height: 24),
                           TextFieldEdit(
-                            hintText: 'Name',
+                            hintText: 'First Name',
                             hintTextField: controllerName.text.isEmpty
-                                ? 'Enter Name'
+                                ? 'Enter First Name'
                                 : controllerName.text,
                             colorTextField: Colors.grey.shade100,
                             colorText: Colors.black87,
                             textEditingController: controllerName,
+                          ),
+                          TextFieldEdit(
+                            hintText: 'Last Name',
+                            hintTextField: controllerLastName.text.isEmpty
+                                ? 'Enter Last Name'
+                                : controllerLastName.text,
+                            colorTextField: Colors.grey.shade100,
+                            colorText: Colors.black87,
+                            textEditingController: controllerLastName,
                           ),
                           const SizedBox(height: 16),
                           TextFieldEdit(
@@ -177,6 +187,16 @@ class _ProfileViewState extends State<ProfileView> {
                                         return;
                                       }
 
+                                      if (controllerLastName.text.isEmpty) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text("LastName, please enter."),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+
                                       if (controllerLocal.text.isEmpty) {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
@@ -203,6 +223,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             "name": controllerName.text,
                                             "address": controllerLocal.text,
                                             'image': i,
+                                            "name_last":controllerLastName.text
                                           },
                                         ),
                                       );
@@ -335,6 +356,7 @@ class _ProfileViewState extends State<ProfileView> {
     super.initState();
     if (supabase.auth.currentUser == null) return;
     String? name = supabase.auth.currentUser!.userMetadata!['name'];
+    String? nameLast = supabase.auth.currentUser!.userMetadata!['name_last'];
     String? email = supabase.auth.currentUser!.userMetadata!['email'];
     String? address = supabase.auth.currentUser!.userMetadata!['address'];
     image = supabase.auth.currentUser!.userMetadata!['image'];
@@ -342,6 +364,11 @@ class _ProfileViewState extends State<ProfileView> {
     if (name != null) {
       setState(() {
         controllerName.text = name;
+      });
+    }
+    if (nameLast != null) {
+      setState(() {
+        controllerLastName.text = nameLast;
       });
     }
     if (email != null) {

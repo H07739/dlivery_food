@@ -21,6 +21,7 @@ Future<List<FoodModel>> getFood({String? category, String? foodName,ValueNotifie
           .filter('id_receive', 'eq', user.id)
           .filter('read', 'eq', false);
 
+
       notifications.value = data.length;
 
     }
@@ -37,7 +38,7 @@ Future<List<FoodModel>> getFood({String? category, String? foodName,ValueNotifie
       query = query.filter('name', 'ilike', '%$foodName%');
     }
 
-    final response = await query;
+    final response = await query.order('id', ascending: false);
 
 
 

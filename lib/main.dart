@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:my_project/DataBase/OrderManager.dart';
+import 'package:my_project/Pages/auth/login/role.dart';
 import 'package:my_project/Pages/home/view/home_view.dart';
 import 'package:my_project/color.dart';
 import 'package:my_project/strings.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilderX<Widget>(
+      home: FutureBuilderX<Map<String,dynamic>>(
         future: () => check(),
         loadingView: Material(
           child: Center(
@@ -54,15 +55,15 @@ class MyApp extends StatelessWidget {
         errorView: (String error, ValueNotifier<int> keyNotifier) {
           return Text(error);
         },
-        doneView: (Widget data, ValueNotifier<int> keyNotifier) {
-          return data;
+        doneView: (Map<String,dynamic> data, ValueNotifier<int> keyNotifier) {
+          return data['widget'];
         },
       ),
     );
   }
 }
 
-Future<Widget> check() async {
+Future<Map<String,dynamic>> check() async {
   try {
     // Load theme colors
     List<Map<String, dynamic>> settings = await supabase
@@ -78,7 +79,6 @@ Future<Widget> check() async {
     selectBottomItemColor = seteingModel.selectBottomItemColor ?? selectBottomItemColor;
     unselectBottomItemColor = seteingModel.unselectBottomItemColor ?? unselectBottomItemColor;
     logo_url = seteingModel.logo_url;
-    print(logo_url);
 
   } catch (e) {
     print('Error loading theme settings: $e');
@@ -87,7 +87,11 @@ Future<Widget> check() async {
   final user = supabase.auth.currentUser;
 
   if (user == null) {
-    return HomeView();
+    return {
+      'widget':HomeView(),
+      'model':null,
+    };
+
   }
 
   List<Map<String, dynamic>> superAdmin = await supabase
@@ -106,19 +110,56 @@ Future<Widget> check() async {
       .eq('id_user', supabase.auth.currentUser!.id);
 
   if (superAdmin.isNotEmpty) {
-    return SuperAdminHomeView();
+    await supabase.auth.updateUser(
+      UserAttributes(
+        data: {
+          "role":Role.superAdmin,
+        },
+      ),
+    );
+    return {
+      'widget':SuperAdminHomeView(),
+      'model':superAdmin,
+    };
+
   } else if (admin.isNotEmpty) {
     await supabase.auth.updateUser(
       UserAttributes(
         data: {
-          "admin": true,
+          "role":Role.admin,
         },
       ),
     );
-    return AdminView();
+    return {
+      'widget':AdminView(),
+      'model':admin,
+    };
+
   } else if (manger.isNotEmpty) {
-    return MangerOrdersView(model: MangerModel.fromJson(manger[0]));
+    await supabase.auth.updateUser(
+      UserAttributes(
+        data: {
+          "role":Role.manger,
+        },
+      ),
+    );
+    return {
+      'widget':MangerOrdersView(model: MangerModel.fromJson(manger[0])),
+      'model':manger,
+    };
+
   } else {
-    return HomeView();
+    await supabase.auth.updateUser(
+      UserAttributes(
+        data: {
+          "role":Role.user,
+        },
+      ),
+    );
+    return {
+      'widget':HomeView(),
+      'model':null,
+    };
+
   }
 }

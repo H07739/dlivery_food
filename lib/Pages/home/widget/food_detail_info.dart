@@ -4,11 +4,13 @@ import 'package:my_project/widgets/favorite_item.dart';
 
 import '../../shopping_cart/model/FoodOrderModel.dart';
 import '../function/add_favorite.dart';
+import '../model/food_detail_model.dart';
 
 
 class FoodDetailInfo extends StatelessWidget {
   FoodDetailInfo({super.key,required this.orderModel});
   FoodOrderModel orderModel;
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,19 @@ class FoodDetailInfo extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(height: 12),
+        Text(
+          orderModel.foodModel.description,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey.shade600,
+            height: 1.5,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
         SizedBox(height: 8),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -89,10 +103,7 @@ class FoodDetailInfo extends StatelessWidget {
           ],
         ),
         SizedBox(height: 12),
-        Text(
-          "Supplementary Option",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+
 
         SizedBox(height: 16),
         SizedBox(height: 8),

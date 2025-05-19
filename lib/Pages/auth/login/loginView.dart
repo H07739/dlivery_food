@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_project/Pages/auth/login/role.dart';
+import 'package:my_project/Pages/home/view/home_view.dart';
+import 'package:my_project/admin/home/view/admin_view.dart';
 import 'package:my_project/main.dart';
+import 'package:my_project/strings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../admin/MealPlan/view/manger_orders_view.dart';
+import '../../../admin/setting/model/manger_model.dart';
+import '../../../super_admin/home/view/home_view.dart';
 import '../../../widgets/MaterialButtonX.dart';
 import '../../profile/text_field.dart';
 import 'package:my_project/main.dart';
@@ -10,6 +17,9 @@ class Loginview extends StatelessWidget {
   Loginview({super.key});
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  List<String> items = ['client', 'admin', 'maingear', 'super Admin'];
+
+  ValueNotifier<String> selectedItem = ValueNotifier('client');
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +102,31 @@ class Loginview extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: ValueListenableBuilder<String>(
+                      valueListenable: selectedItem,
+                      builder:
+                          (BuildContext context, String value, Widget? child) {
+                        return DropdownButton<String>(
+                          value: selectedItem.value,
+                          hint: Text('اختر عنصرًا'),
+                          items: items.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(item),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              selectedItem.value = newValue;
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
                   TextFieldEdit(
                     hintTextField: 'Enter your Email',
                     textEditingController: controllerEmail,
@@ -113,7 +147,8 @@ class Loginview extends StatelessWidget {
                     child: MaterialButtonX(
                       onPressed: (ValueNotifier<bool> keyNotifier) async {
                         try {
-                          if (controllerEmail.text.isEmpty || controllerPassword.text.isEmpty) return;
+                          if (controllerEmail.text.isEmpty ||
+                              controllerPassword.text.isEmpty) return;
                           keyNotifier.value = true;
                           await supabase.auth.signInWithPassword(
                             email: controllerEmail.text,
@@ -121,8 +156,50 @@ class Loginview extends StatelessWidget {
                           );
                           keyNotifier.value = false;
 
-                          Widget nextView = await check();
-                          Get.offAll(() => nextView);
+                          Map<String, dynamic> d = await check();
+                 // ['client', 'admin', 'maingear', 'super Admin'];
+                          String? role = supabase.auth.currentUser
+                              ?.userMetadata?['role'] as String?;
+                          if (role != null) {
+
+
+
+                            if (role == Role.superAdmin) {
+                              if(_checkPermission(role: 'super Admin', context: context)) {
+                                Get.offAll(() => SuperAdminHomeView());
+                              }
+
+
+                            }
+                            else if (role == Role.admin) {
+
+                              if(_checkPermission(role: 'admin', context: context)) {
+                                Get.offAll(() => AdminView());
+                              }
+
+
+
+
+                            }
+
+
+                            else if (role == Role.manger) {
+                              if(_checkPermission(role: 'maingear', context: context)) {
+                                Get.offAll(() => MangerOrdersView(model: MangerModel.fromJson(d['model'])));
+                              }
+
+                            }
+                            else {
+                              if(_checkPermission(role: 'client', context: context)) {
+                                Get.offAll(() => HomeView());
+                              }
+
+                            }
+                          } else {
+                            if(_checkPermission(role: 'client', context: context)) {
+                              Get.offAll(() => HomeView());
+                            }
+                          }
                         } on AuthException catch (e) {
                           keyNotifier.value = false;
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -168,4 +245,30 @@ class Loginview extends StatelessWidget {
       ),
     );
   }
+  bool _checkPermission({required String role, required BuildContext context}) {
+    if (selectedItem.value == role) {
+      return true;
+    } else {
+      Future.microtask(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: You do not have permission"),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+      });
+
+      // تأخير تسجيل الخروج لضمان عرض SnackBar أولًا
+      Future.delayed(Duration(seconds: 2), () {
+        supabase.auth.signOut();
+      });
+
+      return false;
+    }
+  }
+
 }

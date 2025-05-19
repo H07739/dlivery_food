@@ -19,18 +19,13 @@ class TestView extends StatelessWidget {
         ),
         backgroundColor: Colors.red,
       ),
-      body: Center(
-        child: MaterialButtonX(
-          text: Text('ok'),
-          onPressed: (ValueNotifier<bool> keyNotifier) async{
+      body: Column(
+        children: [
 
-           // var data = await supabase.from(Table_Food).select('*, $Table_Favorites(id_user)').eq('$Table_Favorites.id_user', '637b89a5-ef22-48ad-8b25-6cf2b0af7a29');
-            //print(data);
-          },
-        ),
+        ],
       ),
     );
   }
-
-
 }
+
+
