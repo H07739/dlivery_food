@@ -24,7 +24,7 @@ class _MealPlanViewState extends State<MealPlanView> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text('Meal Plan',style: TextStyle(color: textBarColor),),
+        title: Text('Historical',style: TextStyle(color: textBarColor),),
         backgroundColor:backgroundColor,
       ),
       body: supabase.auth.currentUser != null?FutureBuilderX<List<MealPlanModel>>(

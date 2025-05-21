@@ -139,7 +139,7 @@ class ShoppingCartView extends StatelessWidget {
                           }
                         },
                         text: const Text(
-                          'CHECKOUT',
+                          'Payment',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
