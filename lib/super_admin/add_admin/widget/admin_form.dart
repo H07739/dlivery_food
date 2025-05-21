@@ -34,7 +34,7 @@ class AdminForm extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Add New Admin',
+                    'Add New restaurant',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

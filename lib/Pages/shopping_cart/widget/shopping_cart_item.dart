@@ -52,7 +52,7 @@ class ShoppingCartItem extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        "${value[i].price} D",
+                        "${value[i].price} D ",
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
@@ -73,41 +73,57 @@ class ShoppingCartItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    if (orderModel.count.value > 1) {
+                // IconButton(
+                //   icon: Icon(Icons.remove),
+                //   onPressed: () {
+                //     if (orderModel.count.value > 1) {
+                //
+                //
+                //       OrderManager.updateOrderCount(index, orderModel.count.value - 1);
+                //     } else {
+                //       OrderManager.removeOrder(index);
+                //     }
+                //   },
+                // ),
 
 
-                      OrderManager.updateOrderCount(index, orderModel.count.value - 1);
-                    } else {
-                      OrderManager.removeOrder(index);
-                    }
-                  },
-                ),
+                // ValueListenableBuilder<int>(
+                //   valueListenable: orderModel.count,
+                //   builder: (BuildContext context, int value, Widget? child) {
+                //     return Text(
+                //       "$value",
+                //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                //     );
+                //   },
+                // ),
 
-
-                ValueListenableBuilder<int>(
-                  valueListenable: orderModel.count,
-                  builder: (BuildContext context, int value, Widget? child) {
-                    return Text(
-                      "$value",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    );
-                  },
-                ),
-
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-
-                    OrderManager.updateOrderCount(index, orderModel.count.value + 1);
-                  },
-                ),
+                // IconButton(
+                //   icon: Icon(Icons.add),
+                //   onPressed: () {
+                //
+                //     OrderManager.updateOrderCount(index, orderModel.count.value + 1);
+                //   },
+                // ),
 
               ],
             ),
+
           ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: ValueListenableBuilder<int>(
+              valueListenable: orderModel.count,
+              builder: (BuildContext context, int value, Widget? child) {
+                return Text(
+                  "pirce : $value * ${orderModel.foodModel.price} D",
+                  style: TextStyle(fontSize: 20,),
+                );
+              },
+            ),
+          ),
         ),
       ],
     );

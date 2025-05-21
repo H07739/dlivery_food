@@ -64,8 +64,8 @@ class SuperAdminHomeView extends StatelessWidget {
                     children: [
                       OptionCard(
                         icon: Icons.person_add,
-                        title: 'Add Admin',
-                        subtitle: 'Add new admin to the system',
+                        title: 'Add restaurant',
+                        subtitle: 'Add new restaurant to the system',
                         color: Colors.blue,
                         onTap: () {
                           Get.to(() => AddAdminView());

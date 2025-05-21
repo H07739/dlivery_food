@@ -48,7 +48,7 @@ class NotFoundAdmins extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'No Admins Yet',
+                  'No restaurant Yet',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class NotFoundAdmins extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Click the button below to add your first admin',
+                  'Click the button below to add your first restaurant',
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -79,7 +79,7 @@ class NotFoundAdmins extends StatelessWidget {
                   ),
                   icon: const Icon(Icons.person_add, color: Colors.white),
                   label: const Text(
-                    'Add New Admin',
+                    'Add New restaurant',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

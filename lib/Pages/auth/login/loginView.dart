@@ -157,7 +157,6 @@ class Loginview extends StatelessWidget {
                           keyNotifier.value = false;
 
                           Map<String, dynamic> d = await check();
-                 // ['client', 'admin', 'maingear', 'super Admin'];
                           String? role = supabase.auth.currentUser
                               ?.userMetadata?['role'] as String?;
                           if (role != null) {
@@ -185,7 +184,7 @@ class Loginview extends StatelessWidget {
 
                             else if (role == Role.manger) {
                               if(_checkPermission(role: 'maingear', context: context)) {
-                                Get.offAll(() => MangerOrdersView(model: MangerModel.fromJson(d['model'])));
+                                Get.offAll(() => MangerOrdersView(model: MangerModel.fromJson(d['model'][0])));
                               }
 
                             }

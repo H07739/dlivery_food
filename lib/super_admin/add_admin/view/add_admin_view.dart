@@ -18,7 +18,7 @@ class AddAdminView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
-          'Admins Management',
+          'restaurant Management',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
