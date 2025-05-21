@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_project/Pages/auth/login/loginView.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../main.dart';
@@ -174,8 +175,10 @@ class _SignupViewState extends State<SignupView> {
                               },
                             ),
                           );
+                          
+                          await supabase.auth.signOut();
 
-                          Get.offAll(() => const HomeView());
+                          Get.offAll(Loginview());
                         } on AuthException catch (e) {
                           keyNotifier.value = false;
                           ScaffoldMessenger.of(context).showSnackBar(
