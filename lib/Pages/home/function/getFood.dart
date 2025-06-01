@@ -35,7 +35,7 @@ Future<List<FoodModel>> getFood({String? category, String? foodName,ValueNotifie
     }
 
     if (foodName != null && foodName.isNotEmpty) {
-      query = query.filter('name', 'ilike', '%$foodName%');
+      query = query.or('name.ilike.%$foodName%,restaurant.ilike.%$foodName%');
     }
 
     final response = await query.order('id', ascending: false);
